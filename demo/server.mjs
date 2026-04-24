@@ -14,6 +14,7 @@ import { sendProofPayload } from './chain-anchor.mjs';
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = path.join(repoRoot, 'demo', 'public');
 const defaultStatePath = path.join(repoRoot, 'tmp', 'demo-state.json');
+const evidencePath = path.join(repoRoot, 'docs', 'testnet-evidence.md');
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -109,9 +110,84 @@ function loadState(statePath) {
   return JSON.parse(fs.readFileSync(statePath, 'utf8'));
 }
 
+function loadEvidenceStatus() {
+  if (!fs.existsSync(evidencePath)) {
+    return {
+      status: 'missing',
+      contractAddress: null,
+      explorerUrl: 'https://chainscan-galileo.0g.ai'
+    };
+  }
+
+  const evidence = fs.readFileSync(evidencePath, 'utf8');
+  const status = evidence.match(/^Status:\s*(.+)$/m)?.[1]?.trim() || 'unknown';
+  const contractAddress = evidence.match(/- Contract:\s*`([^`]+)`/)?.[1] || null;
+  const deployTransaction = evidence.match(/- Deploy transaction:\s*\[([^\]]+)\]/)?.[1] || null;
+
+  return {
+    status,
+    contractAddress,
+    deployTransaction,
+    explorerUrl: 'https://chainscan-galileo.0g.ai',
+    evidenceFile: 'docs/testnet-evidence.md'
+  };
+}
+
 function saveState(statePath, state) {
   fs.mkdirSync(path.dirname(statePath), { recursive: true });
   fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
+}
+
+function buildJudgeChecklist(state) {
+  const proofPayload = buildProofPayload(state);
+  const ledger = buildSettlementLedger(state);
+  const evidence = loadEvidenceStatus();
+
+  return {
+    headline: 'Xenodia is a verifiable capability layer on 0G.',
+    track: 'Agentic Economy & Autonomous Applications',
+    chainStatus: evidence,
+    runbook: [
+      'Start the local demo with npm run demo:start.',
+      'Create or review the provider-level identity.',
+      'Publish a versioned capability manifest and inspect its hash.',
+      'Invoke the mock executor to create receipts without exposing LLM API code.',
+      'Inspect receipt and settlement roots, then export the offline settlement ledger.',
+      'After faucet funding arrives, run npm run deploy:wait:0g-testnet.'
+    ],
+    checklist: [
+      {
+        label: 'Production LLM layer excluded',
+        status: 'complete',
+        detail: 'The executor is deterministic and marked productionLLM=false.'
+      },
+      {
+        label: 'Provider identity and rank',
+        status: proofPayload.profile.profileHash ? 'complete' : 'missing',
+        detail: `${state.provider.displayName} (${state.provider.providerKind}) rank ${state.provider.rank}`
+      },
+      {
+        label: 'Capability manifest proof',
+        status: proofPayload.capability.proofId ? 'complete' : 'missing',
+        detail: proofPayload.capability.proofId
+      },
+      {
+        label: 'Receipt batch proof',
+        status: proofPayload.receiptBatch.receiptCount > 0 ? 'complete' : 'needs_invocation',
+        detail: `${proofPayload.receiptBatch.receiptCount} receipt(s), root ${proofPayload.receiptBatch.receiptRoot}`
+      },
+      {
+        label: 'Offline settlement ledger',
+        status: ledger.totals.invocationCount > 0 ? 'complete' : 'needs_invocation',
+        detail: `${ledger.totals.invocationCount} record(s), provider share ${ledger.totals.providerShareMicroUSDC} microUSDC`
+      },
+      {
+        label: '0G chain evidence',
+        status: evidence.status === 'deployed' ? 'complete' : 'pending_faucet',
+        detail: evidence.contractAddress || 'Waiting for testnet 0G faucet funding.'
+      }
+    ]
+  };
 }
 
 function publicState(state) {
@@ -122,7 +198,8 @@ function publicState(state) {
     invocations: state.invocations,
     anchors: state.anchors,
     proofPayload,
-    settlementLedger: buildSettlementLedger(state)
+    settlementLedger: buildSettlementLedger(state),
+    judgeChecklist: buildJudgeChecklist(state)
   };
 }
 

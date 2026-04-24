@@ -45,6 +45,8 @@ npm run demo:start
 
 Then open `http://localhost:4040`.
 
+For the judge-facing walkthrough, see `docs/demo-runbook.md`.
+
 The demo flow is:
 
 1. Review or edit the provider identity.

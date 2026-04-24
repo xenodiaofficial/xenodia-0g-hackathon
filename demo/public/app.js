@@ -15,7 +15,8 @@ const els = {
   anchorStatus: document.querySelector('#anchorStatus'),
   proofGrid: document.querySelector('#proofGrid'),
   ledgerSummary: document.querySelector('#ledgerSummary'),
-  ledgerRows: document.querySelector('#ledgerRows')
+  ledgerRows: document.querySelector('#ledgerRows'),
+  judgeConsole: document.querySelector('#judgeConsole')
 };
 
 async function api(path, options = {}) {
@@ -56,6 +57,37 @@ function renderProofs(state) {
       </div>
     `)
     .join('');
+}
+
+function renderJudgeConsole(state) {
+  const judge = state.judgeChecklist;
+  const chain = judge.chainStatus;
+  els.judgeConsole.innerHTML = `
+    <div class="judge-topline">
+      <div>
+        <strong>${judge.headline}</strong>
+        <span>${judge.track}</span>
+      </div>
+      <div class="chain-pill ${chain.status === 'deployed' ? 'ready' : 'pending'}">
+        0G Chain: ${chain.status}
+      </div>
+    </div>
+    <div class="checklist-grid">
+      ${judge.checklist.map((item) => `
+        <div class="check-item ${item.status}">
+          <strong>${item.label}</strong>
+          <span>${item.status}</span>
+          <code title="${item.detail}">${shortHash(String(item.detail))}</code>
+        </div>
+      `).join('')}
+    </div>
+    <details>
+      <summary>Demo runbook</summary>
+      <ol>
+        ${judge.runbook.map((step) => `<li>${step}</li>`).join('')}
+      </ol>
+    </details>
+  `;
 }
 
 function formatMicroUSDC(value) {
@@ -108,6 +140,7 @@ function hydrate(state) {
   els.capabilitySlug.value = state.capability.slug;
   els.capabilityVersion.value = state.capability.version;
   els.capabilityStorage.value = state.capability.storageURI;
+  renderJudgeConsole(state);
   renderProofs(state);
   renderLedger(state);
 }

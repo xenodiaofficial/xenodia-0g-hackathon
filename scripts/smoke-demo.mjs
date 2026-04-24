@@ -37,6 +37,8 @@ try {
   const initialState = await request(baseURL, '/api/state');
   assert.equal(initialState.provider.displayName, 'Xenodia Demo Provider');
   assert.equal(initialState.invocations.length, 0);
+  assert.match(initialState.judgeChecklist.chainStatus.status, /^(pending faucet funding|deployed)$/);
+  assert.equal(initialState.judgeChecklist.track, 'Agentic Economy & Autonomous Applications');
 
   const invocation = await request(baseURL, '/api/invocations', {
     prompt: 'Find x402 payment-aware providers for an autonomous agent.'
@@ -53,6 +55,7 @@ try {
   const ledger = await request(baseURL, '/api/state');
   assert.equal(ledger.settlementLedger.totals.invocationCount, 1);
   assert.equal(ledger.settlementLedger.totals.providerShareMicroUSDC, 98000);
+  assert.ok(ledger.judgeChecklist.checklist.some((item) => item.label === 'Offline settlement ledger'));
 
   const csvRes = await fetch(`${baseURL}/api/ledger.csv`);
   const csv = await csvRes.text();

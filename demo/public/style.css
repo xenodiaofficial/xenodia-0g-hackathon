@@ -93,6 +93,10 @@ h1 {
   margin-bottom: 18px;
 }
 
+.judge-panel {
+  margin-bottom: 18px;
+}
+
 .panel {
   padding: 22px;
 }
@@ -206,6 +210,90 @@ button.ghost {
   margin-bottom: 8px;
 }
 
+.judge-console {
+  display: grid;
+  gap: 16px;
+}
+
+.judge-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.judge-topline strong,
+.judge-topline span {
+  display: block;
+}
+
+.judge-topline span {
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.chain-pill {
+  border-radius: 999px;
+  font-weight: 900;
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
+.chain-pill.ready {
+  background: rgba(14, 107, 95, 0.14);
+  color: var(--accent-2);
+}
+
+.chain-pill.pending {
+  background: rgba(227, 93, 47, 0.14);
+  color: var(--accent);
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.check-item {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.48);
+  padding: 14px;
+  overflow-wrap: anywhere;
+}
+
+.check-item strong,
+.check-item span {
+  display: block;
+}
+
+.check-item span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin: 5px 0 8px;
+  text-transform: uppercase;
+}
+
+details {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+ol {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 12px 0 0;
+  padding-left: 22px;
+}
+
 .ledger-panel {
   margin-top: 18px;
 }
@@ -285,8 +373,14 @@ code {
   .hero,
   .grid,
   .proof-grid,
+  .checklist-grid,
   .ledger-summary {
     grid-template-columns: 1fr;
+  }
+
+  .judge-topline {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .span-5,

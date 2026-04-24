@@ -1,0 +1,14 @@
+# Approved one-way imports from the private Xenodia workspace.
+#
+# Format:
+# source/path/from/private/root|destination/path/in/this/repo
+#
+# The sync script intentionally supports files only. Add new lines only for
+# sanitized 0G-specific files that are safe for hackathon judges to review.
+
+myxeno/shared/model/zerog.go|backend/shared/model/zerog.go
+myxeno/migration/045_zerog_phase1_publications.sql|backend/migration/045_zerog_phase1_publications.sql
+myxeno/gateway-svc/service/zerog_publication.go|backend/gateway-svc/service/zerog_publication.go
+myxeno/gateway-svc/handler/admin_zerog_handler.go|backend/gateway-svc/handler/admin_zerog_handler.go
+myxeno-fe/components/console/zerog/ZeroGTab.tsx|frontend/components/console/zerog/ZeroGTab.tsx
+

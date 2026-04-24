@@ -13,7 +13,9 @@ const els = {
   anchorSend: document.querySelector('#anchorSend'),
   latestResult: document.querySelector('#latestResult'),
   anchorStatus: document.querySelector('#anchorStatus'),
-  proofGrid: document.querySelector('#proofGrid')
+  proofGrid: document.querySelector('#proofGrid'),
+  ledgerSummary: document.querySelector('#ledgerSummary'),
+  ledgerRows: document.querySelector('#ledgerRows')
 };
 
 async function api(path, options = {}) {
@@ -56,6 +58,49 @@ function renderProofs(state) {
     .join('');
 }
 
+function formatMicroUSDC(value) {
+  return `${(Number(value || 0) / 1_000_000).toFixed(6)} USDC`;
+}
+
+function renderLedger(state) {
+  const ledger = state.settlementLedger;
+  const totals = ledger.totals;
+  els.ledgerSummary.innerHTML = `
+    <div><strong>${totals.invocationCount}</strong><span>invocations</span></div>
+    <div><strong>${formatMicroUSDC(totals.grossAmountMicroUSDC)}</strong><span>gross paid</span></div>
+    <div><strong>${formatMicroUSDC(totals.providerShareMicroUSDC)}</strong><span>provider share</span></div>
+    <div><strong>${formatMicroUSDC(totals.platformShareMicroUSDC)}</strong><span>platform share</span></div>
+  `;
+
+  if (ledger.rows.length === 0) {
+    els.ledgerRows.innerHTML = '<p class="muted">No settlement records yet. Invoke the mock capability to create one.</p>';
+    return;
+  }
+
+  els.ledgerRows.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Receipt</th>
+          <th>Capability</th>
+          <th>Provider Share</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${ledger.rows.slice().reverse().map((row) => `
+          <tr>
+            <td><code title="${row.receiptId}">${shortHash(row.receiptId)}</code></td>
+            <td>${row.capabilitySlug}<br /><small>${row.capabilityVersion}</small></td>
+            <td>${formatMicroUSDC(row.providerShareMicroUSDC)}</td>
+            <td>${row.status}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
 function hydrate(state) {
   els.providerName.value = state.provider.displayName;
   els.walletAddress.value = state.provider.walletAddress;
@@ -64,6 +109,7 @@ function hydrate(state) {
   els.capabilityVersion.value = state.capability.version;
   els.capabilityStorage.value = state.capability.storageURI;
   renderProofs(state);
+  renderLedger(state);
 }
 
 async function refresh() {
@@ -127,4 +173,3 @@ els.anchorSend.addEventListener('click', () => anchor(true).catch((error) => {
 refresh().catch((error) => {
   els.anchorStatus.textContent = error.message;
 });
-

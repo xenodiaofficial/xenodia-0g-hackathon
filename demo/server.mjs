@@ -3,7 +3,12 @@ import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { buildProofPayload, makeInitialState, mockExecuteCapability } from './proof-model.mjs';
+import {
+  buildProofPayload,
+  buildSettlementLedger,
+  makeInitialState,
+  mockExecuteCapability
+} from './proof-model.mjs';
 import { sendProofPayload } from './chain-anchor.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -49,6 +54,25 @@ function json(res, statusCode, payload) {
     'cache-control': 'no-store'
   });
   res.end(JSON.stringify(payload, null, 2));
+}
+
+function csvEscape(value) {
+  const text = String(value ?? '');
+  if (!/[",\n\r]/.test(text)) {
+    return text;
+  }
+
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function csv(res, filename, rows) {
+  const content = rows.map((row) => row.map(csvEscape).join(',')).join('\n');
+  res.writeHead(200, {
+    'content-type': 'text/csv; charset=utf-8',
+    'content-disposition': `attachment; filename="${filename}"`,
+    'cache-control': 'no-store'
+  });
+  res.end(`${content}\n`);
 }
 
 function serveStatic(req, res) {
@@ -97,8 +121,39 @@ function publicState(state) {
     capability: state.capability,
     invocations: state.invocations,
     anchors: state.anchors,
-    proofPayload
+    proofPayload,
+    settlementLedger: buildSettlementLedger(state)
   };
+}
+
+function ledgerCsvRows(state) {
+  const ledger = buildSettlementLedger(state);
+  return [
+    [
+      'invocation_id',
+      'receipt_id',
+      'provider',
+      'capability_slug',
+      'capability_version',
+      'gross_amount_micro_usdc',
+      'provider_share_micro_usdc',
+      'platform_share_micro_usdc',
+      'status',
+      'created_at'
+    ],
+    ...ledger.rows.map((row) => [
+      row.invocationId,
+      row.receiptId,
+      row.provider,
+      row.capabilitySlug,
+      row.capabilityVersion,
+      row.grossAmountMicroUSDC,
+      row.providerShareMicroUSDC,
+      row.platformShareMicroUSDC,
+      row.status,
+      row.createdAt
+    ])
+  ];
 }
 
 export function createDemoServer({ statePath = defaultStatePath } = {}) {
@@ -110,6 +165,11 @@ export function createDemoServer({ statePath = defaultStatePath } = {}) {
 
       if (url.pathname === '/api/state' && req.method === 'GET') {
         json(res, 200, publicState(state));
+        return;
+      }
+
+      if (url.pathname === '/api/ledger.csv' && req.method === 'GET') {
+        csv(res, 'xenodia-0g-settlement-ledger.csv', ledgerCsvRows(state));
         return;
       }
 

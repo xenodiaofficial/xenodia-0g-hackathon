@@ -191,3 +191,66 @@ export function buildProofPayload(state) {
     }
   };
 }
+
+export function buildSettlementLedger(state) {
+  const rows = [...state.invocations].reverse().map((invocation) => {
+    const receipt = invocation.receipt;
+    return {
+      invocationId: invocation.id,
+      receiptId: receipt.receiptId,
+      provider: receipt.provider,
+      capabilitySlug: receipt.capabilitySlug,
+      capabilityVersion: receipt.capabilityVersion,
+      status: 'recorded_for_offline_settlement',
+      currency: 'USDC',
+      unit: 'microUSDC',
+      grossAmountMicroUSDC: receipt.priceMicroUSDC,
+      providerShareMicroUSDC: receipt.providerShareMicroUSDC,
+      platformShareMicroUSDC: receipt.platformShareMicroUSDC,
+      createdAt: receipt.createdAt
+    };
+  });
+
+  const byProvider = new Map();
+  for (const row of rows) {
+    const existing = byProvider.get(row.provider) || {
+      provider: row.provider,
+      currency: row.currency,
+      unit: row.unit,
+      invocationCount: 0,
+      grossAmountMicroUSDC: 0,
+      providerShareMicroUSDC: 0,
+      platformShareMicroUSDC: 0
+    };
+
+    existing.invocationCount += 1;
+    existing.grossAmountMicroUSDC += row.grossAmountMicroUSDC;
+    existing.providerShareMicroUSDC += row.providerShareMicroUSDC;
+    existing.platformShareMicroUSDC += row.platformShareMicroUSDC;
+    byProvider.set(row.provider, existing);
+  }
+
+  return {
+    settlementMode: 'offline_provider_share_record',
+    rows,
+    providerSummaries: [...byProvider.values()],
+    totals: rows.reduce(
+      (total, row) => ({
+        currency: row.currency,
+        unit: row.unit,
+        invocationCount: total.invocationCount + 1,
+        grossAmountMicroUSDC: total.grossAmountMicroUSDC + row.grossAmountMicroUSDC,
+        providerShareMicroUSDC: total.providerShareMicroUSDC + row.providerShareMicroUSDC,
+        platformShareMicroUSDC: total.platformShareMicroUSDC + row.platformShareMicroUSDC
+      }),
+      {
+        currency: 'USDC',
+        unit: 'microUSDC',
+        invocationCount: 0,
+        grossAmountMicroUSDC: 0,
+        providerShareMicroUSDC: 0,
+        platformShareMicroUSDC: 0
+      }
+    )
+  };
+}

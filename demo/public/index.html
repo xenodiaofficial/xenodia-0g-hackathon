@@ -76,8 +76,21 @@
         </div>
         <div id="proofGrid" class="proof-grid"></div>
       </section>
+
+      <section class="panel ledger-panel">
+        <div class="panel-head">
+          <span>Ledger</span>
+          <h2>Offline Provider Settlement</h2>
+        </div>
+        <p class="muted">
+          Xenodia records provider share data for offline settlement. The demo does not execute
+          automatic chain revenue splits.
+        </p>
+        <div id="ledgerSummary" class="ledger-summary"></div>
+        <div id="ledgerRows" class="ledger-table"></div>
+        <a class="export-link" href="/api/ledger.csv">Export CSV</a>
+      </section>
     </main>
     <script src="/app.js"></script>
   </body>
 </html>
-

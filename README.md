@@ -51,7 +51,8 @@ The demo flow is:
 2. Review or edit the capability manifest.
 3. Invoke the mock capability executor.
 4. Generate dry-run 0G proof IDs.
-5. Optionally send proofs to a deployed `ZeroGProofRegistry` contract.
+5. Review the offline provider settlement ledger and CSV export.
+6. Optionally send proofs to a deployed `ZeroGProofRegistry` contract.
 
 Run the smoke test:
 

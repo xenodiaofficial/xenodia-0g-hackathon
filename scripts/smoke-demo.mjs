@@ -50,9 +50,18 @@ try {
   assert.match(anchor.anchor.payload.capability.proofId, /^0x[0-9a-f]{64}$/i);
   assert.match(anchor.anchor.payload.settlementBatch.proofId, /^0x[0-9a-f]{64}$/i);
 
+  const ledger = await request(baseURL, '/api/state');
+  assert.equal(ledger.settlementLedger.totals.invocationCount, 1);
+  assert.equal(ledger.settlementLedger.totals.providerShareMicroUSDC, 98000);
+
+  const csvRes = await fetch(`${baseURL}/api/ledger.csv`);
+  const csv = await csvRes.text();
+  assert.ok(csvRes.ok, csv);
+  assert.match(csv, /provider_share_micro_usdc/);
+  assert.match(csv, /recorded_for_offline_settlement/);
+
   console.log('demo smoke: passed');
 } finally {
   await close();
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
-

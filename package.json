@@ -1,0 +1,23 @@
+{
+  "name": "xenodia-0g-hackathon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "guard": "bash scripts/submission-guard.sh",
+    "contracts:compile": "node scripts/compile-contracts.mjs",
+    "contracts:deploy:0g-testnet": "ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai ZERO_G_CHAIN_ID=16602 node scripts/deploy-proof-registry.mjs",
+    "contracts:deploy:0g-mainnet": "ZERO_G_RPC_URL=https://evmrpc.0g.ai ZERO_G_CHAIN_ID=16661 node scripts/deploy-proof-registry.mjs",
+    "proof:demo": "node scripts/anchor-demo-proofs.mjs",
+    "proof:read": "node scripts/read-proof-record.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ethers": "^6.15.0",
+    "solc": "^0.8.30"
+  },
+  "overrides": {
+    "tmp": "^0.2.5"
+  }
+}

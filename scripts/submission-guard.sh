@@ -22,7 +22,12 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 bad_files="$tmp_dir/bad-files.txt"
-find . -path './.git' -prune -o -type f \( \
+find . \( \
+  -path './.git' -o \
+  -path './node_modules' -o \
+  -path './artifacts' -o \
+  -path './cache' \
+\) -prune -o -type f \( \
   -name '.env' -o \
   -name '.env.*' -o \
   -name '*.pem' -o \
@@ -39,7 +44,12 @@ if [[ -s "$bad_files" ]]; then
 fi
 
 bad_dirs="$tmp_dir/bad-dirs.txt"
-find . -path './.git' -prune -o -type d \( \
+find . \( \
+  -path './.git' -o \
+  -path './node_modules' -o \
+  -path './artifacts' -o \
+  -path './cache' \
+\) -prune -o -type d \( \
   -path './myxeno' -o \
   -path './myxeno-fe' -o \
   -path './codex-proxy' -o \
@@ -58,7 +68,7 @@ scan() {
   local pattern="$2"
   local out="$tmp_dir/${label//[^A-Za-z0-9_-]/_}.txt"
 
-  if rg -n -I --hidden --pcre2 -g '!.git' -- "$pattern" . > "$out"; then
+  if rg -n -I --hidden --pcre2 -g '!.git' -g '!node_modules' -g '!artifacts' -g '!cache' -- "$pattern" . > "$out"; then
     print_matches_and_fail "$label" "$out"
   fi
 }

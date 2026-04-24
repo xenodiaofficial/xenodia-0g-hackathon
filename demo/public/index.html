@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Xenodia 0G Demo</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Xenodia x 0G Hackathon Demo</p>
+          <h1>Capability marketplace proofs without exposing the LLM layer.</h1>
+          <p class="lede">
+            Create a provider identity, invoke a mock capability, batch receipts, and generate
+            0G-ready proof IDs for capability, receipt, and settlement anchoring.
+          </p>
+        </div>
+        <div class="hero-card">
+          <span class="status-dot"></span>
+          <strong>Local demo only</strong>
+          <p>No production LLM API, provider routing, or private billing code is included.</p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel span-5">
+          <div class="panel-head">
+            <span>01</span>
+            <h2>Provider Identity</h2>
+          </div>
+          <label>Display Name <input id="providerName" /></label>
+          <label>Wallet Address <input id="walletAddress" /></label>
+          <label>.0g Domain <input id="zeroGDomain" /></label>
+          <button id="saveProvider">Save Provider</button>
+        </article>
+
+        <article class="panel span-7">
+          <div class="panel-head">
+            <span>02</span>
+            <h2>Capability Manifest</h2>
+          </div>
+          <label>Capability Slug <input id="capabilitySlug" /></label>
+          <label>Version <input id="capabilityVersion" /></label>
+          <label>0G Storage URI <input id="capabilityStorage" /></label>
+          <button id="saveCapability">Save Manifest</button>
+        </article>
+
+        <article class="panel span-7">
+          <div class="panel-head">
+            <span>03</span>
+            <h2>Mock Invocation</h2>
+          </div>
+          <textarea id="prompt">Find payment-aware market research providers for an autonomous agent using x402 receipts.</textarea>
+          <button id="invokeCapability">Invoke Mock Capability</button>
+          <div id="latestResult" class="result-box"></div>
+        </article>
+
+        <article class="panel span-5">
+          <div class="panel-head">
+            <span>04</span>
+            <h2>0G Proof Anchor</h2>
+          </div>
+          <p class="muted">Dry-run generates the exact proof IDs that the contract will store. Send mode requires env vars on the server.</p>
+          <button id="anchorDryRun">Generate Dry-Run Anchor</button>
+          <button id="anchorSend" class="ghost">Send To 0G</button>
+          <div id="anchorStatus" class="result-box small"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <span>Proofs</span>
+          <h2>Judge-Visible Evidence</h2>
+        </div>
+        <div id="proofGrid" class="proof-grid"></div>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
+

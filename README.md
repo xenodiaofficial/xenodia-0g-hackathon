@@ -24,6 +24,7 @@ It intentionally excludes production LLM API code, provider routing, API key man
 ## Repository Layout
 
 - `contracts/`: minimal 0G proof registry contract.
+- `demo/`: standalone local server, mock executor, proof model, and static UI.
 - `docs/`: product memo, development plan, and hackathon phase plan.
 - `backend/`: sanitized 0G-specific backend model, migration, handler, and service files.
 - `frontend/`: sanitized 0G-specific admin console UI.
@@ -33,6 +34,30 @@ It intentionally excludes production LLM API code, provider routing, API key man
 ## Demo Principle
 
 The hackathon demo should use a mock or deterministic capability executor. 0G is used for identity, publication, and proof anchoring; the private Xenodia production LLM layer remains outside this repository.
+
+## Local Demo
+
+Start the judge-visible local demo:
+
+```bash
+npm run demo:start
+```
+
+Then open `http://localhost:4040`.
+
+The demo flow is:
+
+1. Review or edit the provider identity.
+2. Review or edit the capability manifest.
+3. Invoke the mock capability executor.
+4. Generate dry-run 0G proof IDs.
+5. Optionally send proofs to a deployed `ZeroGProofRegistry` contract.
+
+Run the smoke test:
+
+```bash
+npm run demo:smoke
+```
 
 ## Contract Workflow
 

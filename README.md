@@ -90,6 +90,14 @@ npm run deploy:evidence:0g-testnet
 
 This command reads the local demo wallet from `~/.config/xenodia-0g-hackathon/demo-wallet.json`, deploys `ZeroGProofRegistry`, anchors demo proofs, and updates `docs/testnet-evidence.md`. It will stop safely if the wallet has not been funded by the 0G faucet yet.
 
+If faucet funding has been requested but has not arrived yet, leave this watcher running:
+
+```bash
+npm run deploy:wait:0g-testnet
+```
+
+It polls the local demo wallet balance, then reuses the evidence deployment command once funds arrive. Optional controls: `FUNDING_POLL_INTERVAL_MS`, `FUNDING_TIMEOUT_MS`, and `MIN_FUNDING_WEI`. The default minimum funding threshold is `0.005 0G` to avoid deploying on dust balances.
+
 Deploy to 0G mainnet:
 
 ```bash

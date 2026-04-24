@@ -67,6 +67,10 @@ Status: pending faucet funding
 ${reason}
 
 The wallet private key is stored outside this repository at the local operator's config path and must never be committed.
+
+## Safe Next Step
+
+After requesting faucet funding, run \`npm run deploy:wait:0g-testnet\`. The watcher polls the demo wallet balance and automatically runs the evidence deployment once funds arrive.
 `;
 
   fs.writeFileSync(evidencePath, content);
@@ -178,4 +182,3 @@ main().catch((error) => {
   console.error(error.message || error);
   process.exit(1);
 });
-

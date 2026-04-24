@@ -82,6 +82,14 @@ export DEPLOYER_PRIVATE_KEY=<local-demo-wallet-private-key>
 npm run contracts:deploy:0g-testnet
 ```
 
+Deploy with the local demo wallet and write judge evidence:
+
+```bash
+npm run deploy:evidence:0g-testnet
+```
+
+This command reads the local demo wallet from `~/.config/xenodia-0g-hackathon/demo-wallet.json`, deploys `ZeroGProofRegistry`, anchors demo proofs, and updates `docs/testnet-evidence.md`. It will stop safely if the wallet has not been funded by the 0G faucet yet.
+
 Deploy to 0G mainnet:
 
 ```bash

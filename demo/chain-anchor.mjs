@@ -13,20 +13,22 @@ const artifactPath = path.join(
   'ZeroGProofRegistry.json'
 );
 
-function requiredEnv(name) {
-  const value = process.env[name];
+function requiredValue(name, value) {
   if (!value) {
     throw new Error(`Missing ${name}. Dry-run mode works without chain credentials.`);
   }
   return value;
 }
 
-export async function sendProofPayload(payload) {
+export async function sendProofPayload(payload, options = {}) {
   compileContracts({ writeArtifacts: true });
 
-  const rpcUrl = requiredEnv('ZERO_G_RPC_URL');
-  const privateKey = requiredEnv('DEPLOYER_PRIVATE_KEY');
-  const contractAddress = requiredEnv('PROOF_REGISTRY_ADDRESS');
+  const rpcUrl = requiredValue('ZERO_G_RPC_URL', options.rpcUrl || process.env.ZERO_G_RPC_URL);
+  const privateKey = requiredValue('DEPLOYER_PRIVATE_KEY', options.privateKey || process.env.DEPLOYER_PRIVATE_KEY);
+  const contractAddress = requiredValue(
+    'PROOF_REGISTRY_ADDRESS',
+    options.contractAddress || process.env.PROOF_REGISTRY_ADDRESS
+  );
   const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
   const wallet = new Wallet(privateKey, new JsonRpcProvider(rpcUrl));
   const registry = new Contract(contractAddress, artifact.abi, wallet);

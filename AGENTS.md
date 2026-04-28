@@ -68,7 +68,16 @@ Before proposing architecture, starting a phase, or making meaningful code chang
    - Blocks accidental inclusion of secrets, real provider code, internal routing, production logs, and private operational details.
    - Encourages standalone mock/demo implementations when production code would be sensitive.
 
+4. **0G Global Progress Lead**
+   - Owns the running picture of the hackathon goal, phase completion, remaining gaps, and next priority.
+   - Reviews every meaningful development round before final summary.
+   - Updates or checks `docs/0G-progress-board.md` whenever scope, evidence, completed work, or next tasks change.
+   - Keeps the team honest about the submission gap between local/testnet proof and official mainnet requirements.
+   - Pushes back on work that improves polish while leaving mandatory submission blockers unresolved.
+
 Use these roles directly in reasoning and summaries. Do not spawn sub-agents unless the user explicitly asks for parallel agents or delegation.
+
+When the user explicitly asks for a 0G progress subagent, create or consult the **0G Global Progress Lead** and include its review in the development closeout.
 
 ## Development Priorities
 
@@ -77,6 +86,16 @@ Use these roles directly in reasoning and summaries. Do not spawn sub-agents unl
 3. Wire provider identity and capability publication to the contract/storage proof flow.
 4. Add immutable receipt and settlement-proof records using batched anchoring, not per-request chain writes.
 5. Polish the judge-facing README, screenshots, and 3-minute demo script.
+
+## Progress Board Protocol
+
+After each meaningful 0G development round:
+
+- Review `docs/0G-progress-board.md`.
+- Update phase completion, shipped evidence, known gaps, and next recommended task if they changed.
+- Keep the board concise and judge/submission oriented.
+- Do not mark a blocker complete unless it has verifiable evidence in the repo or on-chain.
+- If a task is intentionally deferred, record why it is out of MVP or lower priority.
 
 ## Verification
 

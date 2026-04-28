@@ -6,6 +6,7 @@ import solc from 'solc';
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contractsDir = path.join(repoRoot, 'contracts');
 const artifactsDir = path.join(repoRoot, 'artifacts');
+const contractArtifactsDir = path.join(artifactsDir, 'contracts');
 
 function collectSoliditySources(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -58,7 +59,7 @@ export function compileContracts({ writeArtifacts = true } = {}) {
   }
 
   if (writeArtifacts) {
-    fs.rmSync(artifactsDir, { recursive: true, force: true });
+    fs.rmSync(contractArtifactsDir, { recursive: true, force: true });
 
     for (const [sourceName, contracts] of Object.entries(output.contracts || {})) {
       for (const [contractName, artifact] of Object.entries(contracts)) {
@@ -99,4 +100,3 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   );
   console.log(`Compiled ${contractCount} contract(s) with solc ${solc.version()} and evmVersion=cancun.`);
 }
-

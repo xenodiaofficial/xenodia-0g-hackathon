@@ -44,6 +44,23 @@ export function makeInitialState() {
   };
 }
 
+export function makeSeededDemoState() {
+  const state = makeInitialState();
+  [
+    'Find x402 payment-aware providers for an autonomous agent.',
+    'Rank capability providers by verifiable receipts and risk.',
+    'Prepare offline settlement evidence for a paid skill invocation.'
+  ].forEach((prompt, index) => {
+    const { response, receipt } = mockExecuteCapability(state, {
+      prompt,
+      createdAt: `2026-04-24T00:0${index}:00.000Z`
+    });
+    state.invocations.unshift({ id: receipt.receiptId, prompt, response, receipt });
+  });
+
+  return state;
+}
+
 export function buildProviderProfile(provider) {
   return {
     displayName: provider.displayName,
@@ -75,6 +92,75 @@ export function buildCapabilityManifest(state) {
       productionLLM: false
     }
   };
+}
+
+export function buildStorageDocuments(state) {
+  const proofPayload = buildProofPayload(state);
+  const providerProfile = buildProviderProfile(state.provider);
+  const capabilityManifest = buildCapabilityManifest(state);
+  const ledger = buildSettlementLedger(state);
+  const receipts = [...state.invocations].map((invocation) => invocation.receipt);
+
+  return [
+    {
+      kind: 'providerProfile',
+      fileName: 'xenodia-demo-provider-profile.json',
+      anchorHash: proofPayload.profile.profileHash,
+      payload: {
+        schema: 'xenodia.0g.provider-profile.v1',
+        provider: providerProfile,
+        profileHash: proofPayload.profile.profileHash
+      }
+    },
+    {
+      kind: 'capabilityManifest',
+      fileName: `${state.capability.slug}-manifest-${state.capability.version}.json`,
+      anchorHash: proofPayload.capability.manifestHash,
+      payload: {
+        schema: 'xenodia.0g.capability-manifest.v1',
+        manifest: capabilityManifest,
+        manifestHash: proofPayload.capability.manifestHash,
+        proofId: proofPayload.capability.proofId
+      }
+    },
+    {
+      kind: 'receiptBatch',
+      fileName: `${state.capability.slug}-receipt-batch-${receipts.length}.json`,
+      anchorHash: proofPayload.receiptBatch.receiptRoot,
+      payload: {
+        schema: 'xenodia.0g.receipt-batch.v1',
+        batchId: proofPayload.receiptBatch.batchId,
+        receiptRoot: proofPayload.receiptBatch.receiptRoot,
+        receiptCount: proofPayload.receiptBatch.receiptCount,
+        receipts
+      }
+    },
+    {
+      kind: 'settlementBatch',
+      fileName: `${state.capability.slug}-settlement-batch-${receipts.length}.json`,
+      anchorHash: proofPayload.settlementBatch.settlementRoot,
+      payload: {
+        schema: 'xenodia.0g.settlement-batch.v1',
+        batchId: proofPayload.settlementBatch.batchId,
+        settlementRoot: proofPayload.settlementBatch.settlementRoot,
+        settlementCount: proofPayload.settlementBatch.settlementCount,
+        totals: ledger.totals,
+        providerSummaries: ledger.providerSummaries,
+        rows: ledger.rows
+      }
+    }
+  ];
+}
+
+export function applyStorageUploadsToState(state, uploadsByKind) {
+  if (uploadsByKind.providerProfile?.uri) {
+    state.provider.profileURI = uploadsByKind.providerProfile.uri;
+  }
+  if (uploadsByKind.capabilityManifest?.uri) {
+    state.capability.storageURI = uploadsByKind.capabilityManifest.uri;
+  }
+  state.storageUploads = uploadsByKind;
+  return state;
 }
 
 export function mockExecuteCapability(state, input) {
@@ -169,7 +255,8 @@ export function buildProofPayload(state) {
     receiptBatch: {
       batchId: receiptBatchId,
       receiptRoot,
-      storageURI: `0g://storage/${state.capability.slug}-receipt-batch-${receipts.length}.json`,
+      storageURI: state.storageUploads?.receiptBatch?.uri
+        || `0g://storage/${state.capability.slug}-receipt-batch-${receipts.length}.json`,
       receiptCount: receipts.length,
       proofId: solidityPackedKeccak256(
         ['string', 'address', 'bytes32', 'bytes32'],
@@ -179,7 +266,8 @@ export function buildProofPayload(state) {
     settlementBatch: {
       batchId: settlementBatchId,
       settlementRoot,
-      storageURI: `0g://storage/${state.capability.slug}-settlement-batch-${receipts.length}.json`,
+      storageURI: state.storageUploads?.settlementBatch?.uri
+        || `0g://storage/${state.capability.slug}-settlement-batch-${receipts.length}.json`,
       settlementCount: receipts.length > 0 ? 1 : 0,
       totalPaidMicroUSDC,
       providerShareMicroUSDC,

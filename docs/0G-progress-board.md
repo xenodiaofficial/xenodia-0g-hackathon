@@ -25,7 +25,7 @@ Review checklist:
 | Phase | Status | Evidence |
 | --- | --- | --- |
 | Phase 0: Scope freeze | Complete | `docs/0G-product-goals-and-phase-plan.md` |
-| Phase 1: Provider identity and manifest | Mostly complete | Demo state model, `ZeroGProofRegistry`, testnet capability manifest proof |
+| Phase 1: Provider identity and manifest | Complete for MVP | Demo state model, real 0G Storage root, `ZeroGProofRegistry`, testnet capability manifest proof |
 | Phase 2: Batched receipts and verifiable proof | Complete for MVP | Receipt batch proof and settlement readback in `docs/testnet-evidence.md` |
 | Phase 3: Offline settlement ledger | Complete for MVP | Demo ledger UI and `/api/ledger.csv` |
 | Phase 4: Submission polish | In progress | README, runbook, judge console, testnet evidence |
@@ -35,7 +35,9 @@ Review checklist:
 - Standalone sanitized repo exists and is safe for judge review.
 - Production LLM API, provider routing, real billing internals, secrets, and production logs are excluded.
 - `ZeroGProofRegistry` compiles and supports provider identity, capability manifest, receipt batch, and settlement batch records.
-- 0G Galileo testnet contract deployed: `0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`.
+- 0G Galileo testnet contract deployed with real Storage pointers: `0xCa858281D7BdDABC46BbB36C7ABB016bE2724879`.
+- 0G Storage testnet uploads exist for provider profile, capability manifest, receipt batch, and settlement batch JSON.
+- Judge-visible copies of uploaded JSON evidence exist in `docs/evidence-artifacts/`.
 - Explorer evidence and readback verification are recorded in `docs/testnet-evidence.md`.
 - Local demo supports provider identity, capability manifest, mock invocation, proof generation, settlement ledger, CSV export, and judge console.
 - Guard and smoke workflows exist: `npm run guard`, `npm run demo:smoke`, `npm run contracts:compile`, `npm test`, `npm run proof:demo`.
@@ -43,17 +45,16 @@ Review checklist:
 ## Known Gaps
 
 1. Official submission currently asks for a 0G mainnet contract address and Explorer link; current chain evidence is testnet only.
-2. 0G Storage is represented by `0g://storage/...` pointers, but manifest / receipt / settlement JSON are not yet uploaded to real 0G Storage.
-3. README needs final submission-grade structure with architecture diagram, exact 0G modules used, and judge reproduction steps.
-4. Demo video under 3 minutes is not recorded.
-5. Public X post is not prepared or published.
-6. Public judge repository/share strategy is not finalized.
+2. README needs final submission-grade structure with architecture diagram, exact 0G modules used, and judge reproduction steps.
+3. Demo video under 3 minutes is not recorded.
+4. Public X post is not prepared or published.
+5. Public judge repository/share strategy is not finalized.
 
 ## Next Recommended Task
 
-Implement real 0G Storage upload for the provider profile, capability manifest, receipt batch, and settlement batch JSON, then anchor the resulting real storage pointers.
+Prepare mainnet deployment for the finalized Storage + Chain evidence structure.
 
-Reason: this increases 0G integration depth and closes the largest product/evidence gap before mainnet deployment.
+Reason: official submission currently asks for a 0G mainnet contract address and Explorer link. The Storage + Chain structure is now proven on testnet, so mainnet deployment is the next mandatory submission blocker.
 
 ## Deferred By Design
 

@@ -1,0 +1,47 @@
+{
+  "schema": "xenodia.0g.receipt-batch.v1",
+  "batchId": "0x64f83193edd72f971ecd18bd2d8fef4e3c2356631c228556676570f32b2f36a7",
+  "receiptRoot": "0x695e498e1de5bfba8ee4f55699af3c203be6cba9ff973d8130180f1a0850f20f",
+  "receiptCount": 3,
+  "receipts": [
+    {
+      "receiptId": "0x38120e8c260dc36b145d25135d1438a317fda08c9a6f496a26094f6aaf9f105a",
+      "provider": "0x0000000000000000000000000000000000000abc",
+      "capabilitySlug": "xenodia-market-research",
+      "capabilityVersion": "v0.1.0-0g-demo",
+      "inputHash": "0xe6041b06d6de23b869d86ab952f19919d402d75b3d9312223b6be6749b98fac0",
+      "outputHash": "0xd09aaedde45426865bcf5e068dfbb64c6b3505d1aae0f57b1c4bbe985f96a4b6",
+      "priceMicroUSDC": 140000,
+      "providerShareMicroUSDC": 98000,
+      "platformShareMicroUSDC": 42000,
+      "createdAt": "2026-04-24T00:02:00.000Z",
+      "executor": "mock_demo_executor"
+    },
+    {
+      "receiptId": "0xc8ec63769c809caadd1b08f14a6b20f160ee9c6de93f6fddcbb6597ce3966d8d",
+      "provider": "0x0000000000000000000000000000000000000abc",
+      "capabilitySlug": "xenodia-market-research",
+      "capabilityVersion": "v0.1.0-0g-demo",
+      "inputHash": "0x5d4c11b182b01eb83113abd9b4c624748f118b032486e5a9b22395605c505660",
+      "outputHash": "0x0bf98f90d1b51a316429c2ec710db01f84dffd9ebe267ce9b4376e1b40d951fe",
+      "priceMicroUSDC": 140000,
+      "providerShareMicroUSDC": 98000,
+      "platformShareMicroUSDC": 42000,
+      "createdAt": "2026-04-24T00:01:00.000Z",
+      "executor": "mock_demo_executor"
+    },
+    {
+      "receiptId": "0x3c35dc12915dfc70894cd927e5faaad0c8986a140b6f2729cd85a09a11d6b45b",
+      "provider": "0x0000000000000000000000000000000000000abc",
+      "capabilitySlug": "xenodia-market-research",
+      "capabilityVersion": "v0.1.0-0g-demo",
+      "inputHash": "0xecc70ab2ef25c18ff8837d60846aa4e754cb53226502625f50b74e734e954f04",
+      "outputHash": "0xf90649c9057d3c9009ca4e2820fd094990cc9a54429bcbd4b27a579a62ddb667",
+      "priceMicroUSDC": 140000,
+      "providerShareMicroUSDC": 98000,
+      "platformShareMicroUSDC": 42000,
+      "createdAt": "2026-04-24T00:00:00.000Z",
+      "executor": "mock_demo_executor"
+    }
+  ]
+}

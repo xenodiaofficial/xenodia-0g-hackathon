@@ -8,6 +8,8 @@
     "contracts:compile": "node scripts/compile-contracts.mjs",
     "contracts:deploy:0g-testnet": "ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai ZERO_G_CHAIN_ID=16602 node scripts/deploy-proof-registry.mjs",
     "contracts:deploy:0g-mainnet": "ZERO_G_RPC_URL=https://evmrpc.0g.ai ZERO_G_CHAIN_ID=16661 node scripts/deploy-proof-registry.mjs",
+    "storage:dry-run": "node scripts/upload-demo-storage.mjs --dry-run",
+    "storage:upload:0g-testnet": "ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai ZERO_G_CHAIN_ID=16602 ZERO_G_STORAGE_INDEXER_RPC=https://indexer-storage-testnet-turbo.0g.ai node scripts/upload-demo-storage.mjs",
     "deploy:evidence:0g-testnet": "ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai ZERO_G_CHAIN_ID=16602 node scripts/deploy-testnet-evidence.mjs",
     "deploy:wait:0g-testnet": "ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai ZERO_G_CHAIN_ID=16602 node scripts/wait-for-funding-and-deploy.mjs",
     "demo:start": "node demo/server.mjs",
@@ -17,11 +19,13 @@
     "test": "node --test"
   },
   "dependencies": {
+    "@0gfoundation/0g-ts-sdk": "^1.2.6",
     "dotenv": "^16.4.7",
-    "ethers": "^6.15.0",
+    "ethers": "^6.13.1",
     "solc": "^0.8.30"
   },
   "overrides": {
+    "axios": "^1.12.0",
     "tmp": "^0.2.5"
   }
 }

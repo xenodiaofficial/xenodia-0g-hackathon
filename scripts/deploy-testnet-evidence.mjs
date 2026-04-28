@@ -3,9 +3,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ContractFactory, JsonRpcProvider, Wallet, formatEther } from 'ethers';
-import { buildProofPayload, makeInitialState, mockExecuteCapability } from '../demo/proof-model.mjs';
+import { buildProofPayload, makeSeededDemoState } from '../demo/proof-model.mjs';
 import { sendProofPayload } from '../demo/chain-anchor.mjs';
 import { compileContracts } from './compile-contracts.mjs';
+import { uploadDemoStorageDocuments } from './upload-demo-storage.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const defaultWalletPath = path.join(os.homedir(), '.config', 'xenodia-0g-hackathon', 'demo-wallet.json');
@@ -25,23 +26,6 @@ function requiredEnv(name) {
     throw new Error(`Missing ${name}.`);
   }
   return value;
-}
-
-function makeDemoPayload() {
-  const state = makeInitialState();
-  [
-    'Find x402 payment-aware providers for an autonomous agent.',
-    'Rank capability providers by verifiable receipts and risk.',
-    'Prepare offline settlement evidence for a paid skill invocation.'
-  ].forEach((prompt, index) => {
-    const { response, receipt } = mockExecuteCapability(state, {
-      prompt,
-      createdAt: `2026-04-24T00:0${index}:00.000Z`
-    });
-    state.invocations.unshift({ id: receipt.receiptId, prompt, response, receipt });
-  });
-
-  return buildProofPayload(state);
 }
 
 function writePendingEvidence({ walletAddress, balance0G, reason }) {
@@ -76,7 +60,19 @@ After requesting faucet funding, run \`npm run deploy:wait:0g-testnet\`. The wat
   fs.writeFileSync(evidencePath, content);
 }
 
-function writeCompletedEvidence({ walletAddress, balance0GBefore, deployment, proofPayload, proofTxs }) {
+function writeStorageUploads(storageUpload) {
+  if (!storageUpload) {
+    return '- Storage upload: `skipped`\n';
+  }
+
+  return storageUpload.uploads.map((upload) => (
+    upload.txHash
+      ? `- ${upload.kind}: root \`${upload.rootHash}\`, tx [${upload.txHash}](https://chainscan-galileo.0g.ai/tx/${upload.txHash}), uri \`${upload.uri}\`, anchor hash \`${upload.anchorHash}\``
+      : `- ${upload.kind}: root \`${upload.rootHash}\`, tx \`already_finalized\`, uri \`${upload.uri}\`, anchor hash \`${upload.anchorHash}\``
+  )).join('\n');
+}
+
+function writeCompletedEvidence({ walletAddress, balance0GBefore, deployment, proofPayload, proofTxs, storageUpload }) {
   const explorer = 'https://chainscan-galileo.0g.ai';
   const content = `# 0G Testnet Evidence
 
@@ -101,12 +97,20 @@ Status: deployed
 ## Anchored Proofs
 
 - Provider profile hash: \`${proofPayload.profile.profileHash}\`
+- Provider profile URI: \`${proofPayload.profile.profileURI}\`
 - Capability manifest proofId: \`${proofPayload.capability.proofId}\`
 - Capability manifest hash: \`${proofPayload.capability.manifestHash}\`
+- Capability manifest URI: \`${proofPayload.capability.storageURI}\`
 - Receipt batch proofId: \`${proofPayload.receiptBatch.proofId}\`
 - Receipt root: \`${proofPayload.receiptBatch.receiptRoot}\`
+- Receipt batch URI: \`${proofPayload.receiptBatch.storageURI}\`
 - Settlement batch proofId: \`${proofPayload.settlementBatch.proofId}\`
 - Settlement root: \`${proofPayload.settlementBatch.settlementRoot}\`
+- Settlement batch URI: \`${proofPayload.settlementBatch.storageURI}\`
+
+## 0G Storage Uploads
+
+${writeStorageUploads(storageUpload)}
 
 ## Proof Transactions
 
@@ -117,7 +121,7 @@ Status: deployed
 
 ## What This Proves
 
-Xenodia can publish capability-market evidence to 0G without exposing its production LLM API layer. The chain stores hashes and proof pointers; private execution and payment internals stay off-chain.
+Xenodia can publish capability-market evidence to 0G without exposing its production LLM API layer. 0G Storage stores provider, manifest, receipt, and settlement evidence JSON; 0G Chain anchors their hashes and storage pointers.
 `;
 
   fs.writeFileSync(evidencePath, content);
@@ -154,7 +158,16 @@ async function main() {
   const contract = await factory.deploy(wallet.address);
   const receipt = await contract.deploymentTransaction().wait();
   const contractAddress = await contract.getAddress();
-  const proofPayload = makeDemoPayload();
+  const demoState = makeSeededDemoState();
+  const storageUpload = process.env.ZERO_G_STORAGE_UPLOAD === 'false'
+    ? null
+    : await uploadDemoStorageDocuments({
+      state: demoState,
+      rpcUrl,
+      expectedChainId: expectedChainId.toString(),
+      privateKey: walletFile.privateKey
+    });
+  const proofPayload = buildProofPayload(demoState);
   const proofTxs = await sendProofPayload(proofPayload, {
     rpcUrl,
     privateKey: walletFile.privateKey,
@@ -172,7 +185,8 @@ async function main() {
     balance0GBefore: balance0G,
     deployment,
     proofPayload,
-    proofTxs
+    proofTxs,
+    storageUpload
   });
 
   console.log(JSON.stringify({ deployment, proofPayload, proofTxs, evidencePath }, null, 2));

@@ -78,6 +78,20 @@ npm test
 npm run guard
 ```
 
+Generate local 0G Storage artifacts without uploading:
+
+```bash
+npm run storage:dry-run
+```
+
+Upload the provider profile, capability manifest, receipt batch, and settlement batch JSON to 0G Storage testnet:
+
+```bash
+npm run storage:upload:0g-testnet
+```
+
+Judge-visible copies of the uploaded JSON payloads are in `docs/evidence-artifacts/`.
+
 Deploy to 0G testnet:
 
 ```bash

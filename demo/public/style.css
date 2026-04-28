@@ -76,6 +76,12 @@ h1 {
   padding: 24px;
 }
 
+.hackathon-entry {
+  background:
+    linear-gradient(145deg, rgba(255, 250, 238, 0.92), rgba(255, 238, 214, 0.82)),
+    radial-gradient(circle at 100% 0%, rgba(227, 93, 47, 0.18), transparent 42%);
+}
+
 .status-dot {
   display: inline-block;
   width: 12px;
@@ -171,6 +177,17 @@ button.ghost {
   color: var(--ink);
 }
 
+.cta-link {
+  display: inline-block;
+  border-radius: 999px;
+  background: var(--ink);
+  color: white;
+  font-weight: 900;
+  margin-top: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
 .muted {
   color: var(--muted);
   line-height: 1.6;
@@ -208,6 +225,103 @@ button.ghost {
 .proof-card strong {
   display: block;
   margin-bottom: 8px;
+}
+
+.evidence-hero {
+  align-items: center;
+}
+
+.evidence-panel {
+  margin-bottom: 18px;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.evidence-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.evidence-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.56), rgba(255, 244, 220, 0.62));
+  color: var(--ink);
+  min-height: 150px;
+  padding: 18px;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  overflow-wrap: anywhere;
+}
+
+.evidence-card:hover {
+  box-shadow: 0 20px 44px rgba(50, 39, 24, 0.13);
+  transform: translateY(-2px);
+}
+
+.evidence-card span,
+.evidence-card strong,
+.evidence-card em {
+  display: block;
+}
+
+.evidence-card span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-card strong {
+  margin: 18px 0 10px;
+}
+
+.evidence-card em {
+  color: var(--muted);
+  font-style: normal;
+}
+
+.module-list {
+  display: grid;
+  gap: 14px;
+}
+
+.module-list div {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.46);
+  padding: 16px;
+}
+
+.module-list p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.evidence-checks {
+  margin-top: 18px;
+}
+
+.code-block {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(21, 18, 13, 0.07);
+  color: var(--accent-2);
+  overflow-x: auto;
+  padding: 16px;
+  white-space: pre-wrap;
+}
+
+.shortcut-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .judge-console {
@@ -373,6 +487,8 @@ code {
   .hero,
   .grid,
   .proof-grid,
+  .evidence-grid,
+  .evidence-grid.two,
   .checklist-grid,
   .ledger-summary {
     grid-template-columns: 1fr;

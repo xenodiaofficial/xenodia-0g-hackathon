@@ -31,6 +31,13 @@ async function request(baseURL, route, body) {
   return data;
 }
 
+async function requestText(baseURL, route) {
+  const res = await fetch(`${baseURL}${route}`);
+  const text = await res.text();
+  assert.ok(res.ok, `${route} failed: ${text}`);
+  return text;
+}
+
 try {
   const port = await listen();
   const baseURL = `http://127.0.0.1:${port}`;
@@ -39,6 +46,19 @@ try {
   assert.equal(initialState.invocations.length, 0);
   assert.match(initialState.judgeChecklist.chainStatus.status, /^(pending faucet funding|deployed)$/);
   assert.equal(initialState.judgeChecklist.track, 'Agentic Economy & Autonomous Applications');
+
+  const hackathonPage = await requestText(baseURL, '/0g-hackathon');
+  assert.match(hackathonPage, /0G Storage/);
+  assert.match(hackathonPage, /0G Chain/);
+  assert.match(hackathonPage, /chainscan-galileo\.0g\.ai\/address\/0xCa858281D7BdDABC46BbB36C7ABB016bE2724879/);
+
+  const evidenceMarkdown = await requestText(baseURL, '/docs/testnet-evidence.md');
+  assert.match(evidenceMarkdown, /0G Storage Uploads/);
+  const settlementJson = await requestText(
+    baseURL,
+    '/docs/evidence-artifacts/xenodia-market-research-settlement-batch-3.json'
+  );
+  assert.equal(JSON.parse(settlementJson).schema, 'xenodia.0g.settlement-batch.v1');
 
   const invocation = await request(baseURL, '/api/invocations', {
     prompt: 'Find x402 payment-aware providers for an autonomous agent.'

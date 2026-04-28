@@ -13,6 +13,7 @@ import { sendProofPayload } from './chain-anchor.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = path.join(repoRoot, 'demo', 'public');
+const docsDir = path.join(repoRoot, 'docs');
 const defaultStatePath = path.join(repoRoot, 'tmp', 'demo-state.json');
 const evidencePath = path.join(repoRoot, 'docs', 'testnet-evidence.md');
 
@@ -21,6 +22,7 @@ const mimeTypes = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
   '.svg': 'image/svg+xml; charset=utf-8'
 };
 
@@ -78,7 +80,36 @@ function csv(res, filename, rows) {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, 'http://localhost');
-  const rawPath = url.pathname === '/' ? '/index.html' : url.pathname;
+  if (url.pathname.startsWith('/docs/')) {
+    const safeDocPath = path.normalize(url.pathname.replace(/^\/docs\//, '')).replace(/^(\.\.[/\\])+/, '');
+    const docPath = path.join(docsDir, safeDocPath);
+
+    if (!docPath.startsWith(docsDir)) {
+      res.writeHead(403);
+      res.end('Forbidden');
+      return;
+    }
+
+    if (!fs.existsSync(docPath) || !fs.statSync(docPath).isFile()) {
+      res.writeHead(404);
+      res.end('Not found');
+      return;
+    }
+
+    const ext = path.extname(docPath);
+    res.writeHead(200, {
+      'content-type': mimeTypes[ext] || 'text/plain; charset=utf-8',
+      'cache-control': 'no-store'
+    });
+    fs.createReadStream(docPath).pipe(res);
+    return;
+  }
+
+  const rawPath = url.pathname === '/'
+    ? '/index.html'
+    : url.pathname === '/0g-hackathon'
+      ? '/0g-hackathon.html'
+      : url.pathname;
   const safePath = path.normalize(rawPath).replace(/^(\.\.[/\\])+/, '');
   const filePath = path.join(publicDir, safePath);
 

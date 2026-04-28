@@ -40,6 +40,8 @@ Review checklist:
 - Judge-visible copies of uploaded JSON evidence exist in `docs/evidence-artifacts/`.
 - Explorer evidence and readback verification are recorded in `docs/testnet-evidence.md`.
 - Local demo supports provider identity, capability manifest, mock invocation, proof generation, settlement ledger, CSV export, and judge console.
+- Home page now links to a dedicated 0G Hackathon Evidence page at `/0g-hackathon`.
+- The evidence page shows 0G Explorer links, Storage upload proofs, Chain proof transactions, and readback verification.
 - Guard and smoke workflows exist: `npm run guard`, `npm run demo:smoke`, `npm run contracts:compile`, `npm test`, `npm run proof:demo`.
 
 ## Known Gaps

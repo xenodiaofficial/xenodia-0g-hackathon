@@ -44,16 +44,16 @@ try {
   const initialState = await request(baseURL, '/api/state');
   assert.equal(initialState.provider.displayName, 'Xenodia Demo Provider');
   assert.equal(initialState.invocations.length, 0);
-  assert.match(initialState.judgeChecklist.chainStatus.status, /^(pending faucet funding|deployed)$/);
+  assert.match(initialState.judgeChecklist.chainStatus.status, /^(pending faucet funding|deployed|anchored)$/);
   assert.equal(initialState.judgeChecklist.track, 'Agentic Economy & Autonomous Applications');
 
   const hackathonPage = await requestText(baseURL, '/0g-hackathon');
   assert.match(hackathonPage, /0G Storage/);
   assert.match(hackathonPage, /0G Chain/);
-  assert.match(hackathonPage, /chainscan-galileo\.0g\.ai\/address\/0xCa858281D7BdDABC46BbB36C7ABB016bE2724879/);
+  assert.match(hackathonPage, /chainscan\.0g\.ai\/address\/0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C/);
 
-  const evidenceMarkdown = await requestText(baseURL, '/docs/testnet-evidence.md');
-  assert.match(evidenceMarkdown, /0G Storage Uploads/);
+  const evidenceMarkdown = await requestText(baseURL, '/docs/mainnet-evidence.md');
+  assert.match(evidenceMarkdown, /0G Mainnet Evidence/);
   const settlementJson = await requestText(
     baseURL,
     '/docs/evidence-artifacts/xenodia-market-research-settlement-batch-3.json'
@@ -75,7 +75,7 @@ try {
   const ledger = await request(baseURL, '/api/state');
   assert.equal(ledger.settlementLedger.totals.invocationCount, 1);
   assert.equal(ledger.settlementLedger.totals.providerShareMicroUSDC, 98000);
-  assert.ok(ledger.judgeChecklist.checklist.some((item) => item.label === 'Offline settlement ledger'));
+  assert.ok(ledger.judgeChecklist.checklist.some((item) => item.label === 'Settlement accounting ledger'));
 
   const csvRes = await fetch(`${baseURL}/api/ledger.csv`);
   const csv = await csvRes.text();

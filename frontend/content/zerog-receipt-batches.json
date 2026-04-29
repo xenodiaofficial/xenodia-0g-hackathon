@@ -1,0 +1,25 @@
+{
+  "schema": "xenodia.0g.receipt-batch-index.v1",
+  "status": "anchored",
+  "network": "0G Mainnet",
+  "contractAddress": "0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C",
+  "explorerBase": "https://chainscan.0g.ai",
+  "batches": [
+    {
+      "status": "anchored",
+      "batchId": "0xc2996f34a0bbfd32dc29720666dfe2e4f5db3b98c89553c60e9078db3a5236aa",
+      "receiptRoot": "0x881dba5d65d8194ae7ee56792b0ab4cbbd6205bfa5180060756e349bf7b27d30",
+      "receiptCount": 1,
+      "receiptIds": [
+        "0x1ddc035862cbfd762dd8c4c72ae736d221e194e0eb795a8cd7b80b83ac63aa2a"
+      ],
+      "storageRoot": "0x9dc64f6742b6c981db5083cca126d0d5631e26e21d5bebd17e0d5ee293f3be76",
+      "storageURI": "0g://storage/0x9dc64f6742b6c981db5083cca126d0d5631e26e21d5bebd17e0d5ee293f3be76",
+      "storageTx": "0x2883413796921a8d6712b223e26f828b8a81aa27386f3cab33ebd2745e66feaf",
+      "proofId": "0x8efbda850cff5fe79b7d397518e9baf2caaf70fe2e5ae9da09a6744c79578125",
+      "anchorTx": "0xde9d31a74f4de058befb169832ab0cc8f1664aa0a0c5e114049a455fcb3676c0",
+      "artifactPath": "docs/evidence-artifacts/capability-receipt-batch-1.json",
+      "updatedAt": "2026-04-29T01:48:08.096Z"
+    }
+  ]
+}

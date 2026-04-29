@@ -25,6 +25,8 @@ bad_files="$tmp_dir/bad-files.txt"
 find . \( \
   -path './.git' -o \
   -path './node_modules' -o \
+  -path './frontend/node_modules' -o \
+  -path './frontend/.next' -o \
   -path './artifacts' -o \
   -path './cache' \
 \) -prune -o -type f \( \
@@ -47,6 +49,8 @@ bad_dirs="$tmp_dir/bad-dirs.txt"
 find . \( \
   -path './.git' -o \
   -path './node_modules' -o \
+  -path './frontend/node_modules' -o \
+  -path './frontend/.next' -o \
   -path './artifacts' -o \
   -path './cache' \
 \) -prune -o -type d \( \
@@ -68,7 +72,7 @@ scan() {
   local pattern="$2"
   local out="$tmp_dir/${label//[^A-Za-z0-9_-]/_}.txt"
 
-  if rg -n -I --hidden --pcre2 -g '!.git' -g '!node_modules' -g '!artifacts' -g '!cache' -- "$pattern" . > "$out"; then
+  if rg -n -I --hidden --pcre2 -g '!.git' -g '!node_modules' -g '!frontend/node_modules' -g '!frontend/.next' -g '!artifacts' -g '!cache' -- "$pattern" . > "$out"; then
     print_matches_and_fail "$label" "$out"
   fi
 }

@@ -48,6 +48,14 @@ Judge-visible JSON payload copies are stored in `docs/evidence-artifacts/`.
 - Receipt batch tx: [0xa09a265cbd340604c0bf998c655933828350e968e41b37b9d0b7244717f16a28](https://chainscan-galileo.0g.ai/tx/0xa09a265cbd340604c0bf998c655933828350e968e41b37b9d0b7244717f16a28)
 - Settlement batch tx: [0x30e44b54fa817dcf7beb1d534a226aac20ef96128a6a64e49e6be68b3d4f7289](https://chainscan-galileo.0g.ai/tx/0x30e44b54fa817dcf7beb1d534a226aac20ef96128a6a64e49e6be68b3d4f7289)
 
+## Live UniCatcher Evidence
+
+- Live evidence doc: `docs/live-unicatcher-evidence.md`
+- Live 0G Storage tx: [0x998d34b915083e2f9bab1cc965450bc7a76eb41d46e42eba472f201add4c7380](https://chainscan-galileo.0g.ai/tx/0x998d34b915083e2f9bab1cc965450bc7a76eb41d46e42eba472f201add4c7380)
+- Live receipt/review anchor tx: [0x9ae9f1ee86278b05f90e202dc6403a61373bfb2ebdbdad8bf9a778e89ee518a0](https://chainscan-galileo.0g.ai/tx/0x9ae9f1ee86278b05f90e202dc6403a61373bfb2ebdbdad8bf9a778e89ee518a0)
+- Live rollup root: `0xdd02cd9be4e47b812af29021156fe7c0fd5773945968aec48f5eacf44276ec07`
+- Live storage URI: `0g://storage/0xb55a37e8b24a2fdb5b96b2f9b191eb2c70159043e728e1f2649028f66a781b8e`
+
 ## Readback Verification
 
 Command:

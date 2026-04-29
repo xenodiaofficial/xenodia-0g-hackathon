@@ -11,3 +11,51 @@ artifacts/
 cache/
 tmp/
 *.log
+
+# The copied Xenodia frontend mirror is local-development context only.
+# Keep it available on disk, but do not let a blind `git add .` publish the
+# full product UI, internal docs, provider-console flows, or helper scripts.
+# Only the 0G-specific, judge-visible slices below are allowed through.
+frontend/**
+!frontend/.gitignore
+!frontend/app/
+frontend/app/**
+!frontend/app/api/
+frontend/app/api/**
+!frontend/app/api/0g/
+!frontend/app/api/0g/**
+!frontend/app/(public)/
+frontend/app/(public)/**
+!frontend/app/(public)/0g-hackathon/
+!frontend/app/(public)/0g-hackathon/**
+!frontend/app/(public)/0g-proof-center/
+!frontend/app/(public)/0g-proof-center/**
+!frontend/components/
+frontend/components/**
+!frontend/components/ZeroGHackathonPage.tsx
+!frontend/components/ZeroGProofCenterPage.tsx
+!frontend/components/capabilities/
+frontend/components/capabilities/**
+!frontend/components/capabilities/LiveUniCatcherProofPanel.tsx
+!frontend/components/console/
+frontend/components/console/**
+!frontend/components/console/zerog/
+!frontend/components/console/zerog/**
+!frontend/content/
+frontend/content/**
+!frontend/content/zerog-live-evidence.json
+!frontend/content/zerog-receipt-batches.json
+!frontend/lib/
+frontend/lib/**
+!frontend/lib/zerog-live-evidence.ts
+!frontend/lib/zerog-capability-receipts.ts
+!frontend/lib/site.ts
+!frontend/lib/server/
+frontend/lib/server/**
+!frontend/lib/server/api-proxy.ts
+!frontend/public/
+frontend/public/**
+!frontend/public/docs/
+frontend/public/docs/**
+!frontend/public/docs/mainnet-evidence.md
+!frontend/public/docs/live-unicatcher-evidence.md

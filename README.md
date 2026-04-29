@@ -27,9 +27,22 @@ It intentionally excludes production LLM API code, provider routing, API key man
 - `demo/`: standalone local server, mock executor, proof model, and static UI.
 - `docs/`: product memo, development plan, and hackathon phase plan.
 - `backend/`: sanitized 0G-specific backend model, migration, handler, and service files.
-- `frontend/`: sanitized 0G-specific admin console UI.
+- `frontend/`: only sanitized 0G-specific frontend slices are meant for public submission. A fuller frontend mirror may exist locally for demo development, but it is ignored by Git unless a file is explicitly allowlisted.
 - `scripts/`: local safety checks plus contract compile/deploy/read helpers.
 - `integration/`: notes describing how the local demo branch wires these modules into Xenodia without copying production internals.
+
+## GitHub Submission Safety
+
+Before pushing or uploading this repo:
+
+```bash
+npm run guard
+git status --short --ignored
+```
+
+The guard blocks obvious secrets, private key material, production database files, and forbidden production directories. The root `.gitignore` also keeps the copied full Xenodia frontend mirror local-only; do not force-add ignored frontend files unless they have been sanitized and are directly needed for the 0G hackathon evidence path.
+
+Judge-facing entry points should stay English-first: `README.md`, `docs/mainnet-evidence.md`, `docs/live-unicatcher-evidence.md`, `docs/capability-receipt-batches.md`, and the 0G demo/proof pages. Chinese planning notes may remain as local project history, but they should not be the primary review path.
 
 ## Demo Principle
 
@@ -53,7 +66,7 @@ The demo flow is:
 2. Review or edit the capability manifest.
 3. Invoke the mock capability executor.
 4. Generate dry-run 0G proof IDs.
-5. Review the offline provider settlement ledger and CSV export.
+5. Review the verifiable provider settlement accounting ledger and CSV export.
 6. Optionally send proofs to a deployed `ZeroGProofRegistry` contract.
 
 Run the smoke test:
@@ -118,14 +131,26 @@ It polls the local demo wallet balance, then reuses the evidence deployment comm
 Deploy to 0G mainnet:
 
 ```bash
-export DEPLOYER_PRIVATE_KEY=<local-demo-wallet-private-key>
 npm run contracts:deploy:0g-mainnet
+```
+
+Current mainnet deployment:
+
+- Contract: `0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`
+- Deploy tx: `0xf108ae9d41a3b8e9b3909a7ba54dc1f3e89f0c98bb2af4a91f4a5cba062e3828`
+- Explorer: `https://chainscan.0g.ai/address/0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`
+
+Anchor live evidence to the deployed mainnet registry:
+
+```bash
+PROOF_REGISTRY_ADDRESS=0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C npm run live:upload:0g-mainnet
+PROOF_REGISTRY_ADDRESS=0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C npm run receipts:upload:0g-mainnet
 ```
 
 Read a proof record:
 
 ```bash
-export ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai
+export ZERO_G_RPC_URL=https://evmrpc.0g.ai
 export PROOF_REGISTRY_ADDRESS=<deployed-contract-address>
 export PROOF_ID=<bytes32-proof-id>
 npm run proof:read
@@ -140,7 +165,7 @@ npm run proof:demo
 Send the demo provider, capability, receipt batch, and settlement batch proofs to a deployed registry:
 
 ```bash
-export ZERO_G_RPC_URL=https://evmrpc-testnet.0g.ai
+export ZERO_G_RPC_URL=https://evmrpc.0g.ai
 export DEPLOYER_PRIVATE_KEY=<local-demo-wallet-private-key>
 export PROOF_REGISTRY_ADDRESS=<deployed-contract-address>
 npm run proof:demo -- --send

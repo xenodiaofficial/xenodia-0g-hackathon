@@ -1,0 +1,14 @@
+{
+  "status": "anchored",
+  "network": "0G Mainnet",
+  "contractAddress": "0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C",
+  "explorerBase": "https://chainscan.0g.ai",
+  "itemCount": 5,
+  "storageRoot": "0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e",
+  "storageURI": "0g://storage/0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e",
+  "storageTx": "0x649cc444e39538a47e2cb7a06f47a52e192ff9edba4ea05cd8c1ddd13ee4f29b",
+  "rollupRoot": "0x090f1dba19ae15116c018e7fab5101d540753b0619a48fc04336610f72536fc5",
+  "receiptBatchProofId": "0x311f4dd9adcba9e0d468d5a6c7bd4ea600be75dbdcad032958a8df10ca202893",
+  "receiptBatchTx": "0x6db5ebf5b8ced5081f1c0c670c8359e2b4164e1a6f70b007b46f8471f744971b",
+  "updatedAt": "2026-04-29T03:53:37.038Z"
+}

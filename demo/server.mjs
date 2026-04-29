@@ -15,7 +15,7 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 const publicDir = path.join(repoRoot, 'demo', 'public');
 const docsDir = path.join(repoRoot, 'docs');
 const defaultStatePath = path.join(repoRoot, 'tmp', 'demo-state.json');
-const evidencePath = path.join(repoRoot, 'docs', 'testnet-evidence.md');
+const evidencePath = path.join(repoRoot, 'docs', 'mainnet-evidence.md');
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -146,21 +146,27 @@ function loadEvidenceStatus() {
     return {
       status: 'missing',
       contractAddress: null,
-      explorerUrl: 'https://chainscan-galileo.0g.ai'
+      explorerUrl: 'https://chainscan.0g.ai'
     };
   }
 
   const evidence = fs.readFileSync(evidencePath, 'utf8');
   const status = evidence.match(/^Status:\s*(.+)$/m)?.[1]?.trim() || 'unknown';
-  const contractAddress = evidence.match(/- Contract:\s*`([^`]+)`/)?.[1] || null;
-  const deployTransaction = evidence.match(/- Deploy transaction:\s*\[([^\]]+)\]/)?.[1] || null;
+  const contractAddress =
+    evidence.match(/- Registry contract:\s*\[([^\]]+)\]/)?.[1] ||
+    evidence.match(/- Contract:\s*`([^`]+)`/)?.[1] ||
+    null;
+  const deployTransaction =
+    evidence.match(/- Deploy tx:\s*\[([^\]]+)\]/)?.[1] ||
+    evidence.match(/- Deploy transaction:\s*\[([^\]]+)\]/)?.[1] ||
+    null;
 
   return {
     status,
     contractAddress,
     deployTransaction,
-    explorerUrl: 'https://chainscan-galileo.0g.ai',
-    evidenceFile: 'docs/testnet-evidence.md'
+    explorerUrl: 'https://chainscan.0g.ai',
+    evidenceFile: 'docs/mainnet-evidence.md'
   };
 }
 
@@ -183,8 +189,8 @@ function buildJudgeChecklist(state) {
       'Create or review the provider-level identity.',
       'Publish a versioned capability manifest and inspect its hash.',
       'Invoke the mock executor to create receipts without exposing LLM API code.',
-      'Inspect receipt and settlement roots, then export the offline settlement ledger.',
-      'After faucet funding arrives, run npm run deploy:wait:0g-testnet.'
+      'Inspect receipt and settlement roots, then export the settlement accounting ledger.',
+      'Review docs/mainnet-evidence.md for mainnet contract, Storage roots, and anchor transactions.'
     ],
     checklist: [
       {
@@ -208,14 +214,14 @@ function buildJudgeChecklist(state) {
         detail: `${proofPayload.receiptBatch.receiptCount} receipt(s), root ${proofPayload.receiptBatch.receiptRoot}`
       },
       {
-        label: 'Offline settlement ledger',
+        label: 'Settlement accounting ledger',
         status: ledger.totals.invocationCount > 0 ? 'complete' : 'needs_invocation',
         detail: `${ledger.totals.invocationCount} record(s), provider share ${ledger.totals.providerShareMicroUSDC} microUSDC`
       },
       {
         label: '0G chain evidence',
-        status: evidence.status === 'deployed' ? 'complete' : 'pending_faucet',
-        detail: evidence.contractAddress || 'Waiting for testnet 0G faucet funding.'
+        status: ['anchored', 'deployed'].includes(evidence.status) ? 'complete' : 'missing',
+        detail: evidence.contractAddress || 'Waiting for mainnet evidence.'
       }
     ]
   };

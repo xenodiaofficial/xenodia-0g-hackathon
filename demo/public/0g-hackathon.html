@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Xenodia x 0G Hackathon Evidence</title>
+    <title>Xenodia x 0G Mainnet Evidence</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
@@ -11,16 +11,16 @@
       <section class="hero evidence-hero">
         <div>
           <p class="eyebrow">0G Hackathon Evidence</p>
-          <h1>Verifiable capability-market evidence on 0G.</h1>
+          <h1>Verifiable capability-market evidence on 0G mainnet.</h1>
           <p class="lede">
-            Xenodia stores provider, manifest, receipt, and settlement evidence on 0G Storage,
-            then anchors their hashes and storage pointers on 0G Chain.
+            Xenodia uses 0G Storage for evidence bundles and 0G Chain for public root anchoring.
+            The current judge-facing evidence is mainnet-first.
           </p>
         </div>
         <div class="hero-card">
           <span class="status-dot"></span>
           <strong>Core components integrated</strong>
-          <p>0G Storage + 0G Chain are both used in the current testnet evidence flow.</p>
+          <p>0G Storage + 0G Chain are both used in the current mainnet evidence flow.</p>
           <a class="cta-link" href="/">Back to Demo</a>
         </div>
       </section>
@@ -28,18 +28,18 @@
       <section class="panel evidence-panel">
         <div class="panel-head">
           <span>P0</span>
-          <h2>Explorer Verification</h2>
+          <h2>Mainnet Explorer Verification</h2>
         </div>
         <div class="evidence-grid two">
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/address/0xCa858281D7BdDABC46BbB36C7ABB016bE2724879" target="_blank" rel="noreferrer">
-            <span>0G Chain Contract</span>
-            <strong>0xCa858281D7BdDABC46BbB36C7ABB016bE2724879</strong>
+          <a class="evidence-card" href="https://chainscan.0g.ai/address/0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C" target="_blank" rel="noreferrer">
+            <span>0G Mainnet Registry</span>
+            <strong>0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C</strong>
             <em>Open contract in 0G Explorer</em>
           </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0xf5ff796edb2c819baa04d36145a2c05b2ae82be42d45d4501f7791566c6e40d9" target="_blank" rel="noreferrer">
+          <a class="evidence-card" href="https://chainscan.0g.ai/tx/0xf108ae9d41a3b8e9b3909a7ba54dc1f3e89f0c98bb2af4a91f4a5cba062e3828" target="_blank" rel="noreferrer">
             <span>Deployment Transaction</span>
-            <strong>0xf5ff796e...c6e40d9</strong>
-            <em>Verifiable on-chain deployment</em>
+            <strong>0xf108ae9d...062e3828</strong>
+            <em>Verifiable mainnet deployment</em>
           </a>
         </div>
       </section>
@@ -53,11 +53,11 @@
           <div class="module-list">
             <div>
               <strong>0G Storage</strong>
-              <p>Stores JSON evidence for provider identity, capability manifest, receipt batch, and settlement batch.</p>
+              <p>Stores JSON evidence for live UniCatcher receipts, user reviews, provider reputation snapshots, and default invocation receipts.</p>
             </div>
             <div>
               <strong>0G Chain</strong>
-              <p>Anchors hashes, storage URIs, proof IDs, and event logs in `ZeroGProofRegistry`.</p>
+              <p>Anchors receipt roots, Storage URIs, proof IDs, and event logs in `ZeroGProofRegistry`.</p>
             </div>
           </div>
         </article>
@@ -68,14 +68,14 @@
             <h2>What This Proves</h2>
           </div>
           <p class="muted">
-            At least one 0G core component is integrated. In fact, the demo uses two:
-            Storage for evidence persistence and Chain for public verification. The production
-            LLM API layer, provider routing, secrets, and real billing internals are intentionally excluded.
+            The 0G integration is not a separate skin. Xenodia keeps the normal capability-market experience,
+            then records verifiable evidence for live service use without exposing raw prompts, raw outputs,
+            upstream keys, production LLM routing, or billing internals.
           </p>
           <div class="checklist-grid evidence-checks">
-            <div class="check-item complete"><strong>0G Storage</strong><span>integrated</span><code>4 uploaded roots</code></div>
-            <div class="check-item complete"><strong>0G Chain</strong><span>integrated</span><code>registry + proof txs</code></div>
-            <div class="check-item complete"><strong>Readback</strong><span>verified</span><code>settlement proof</code></div>
+            <div class="check-item complete"><strong>0G Storage</strong><span>mainnet</span><code>2 evidence roots</code></div>
+            <div class="check-item complete"><strong>0G Chain</strong><span>mainnet</span><code>registry + proof txs</code></div>
+            <div class="check-item complete"><strong>Readback</strong><span>verified</span><code>2 proof records</code></div>
           </div>
         </article>
       </section>
@@ -85,26 +85,16 @@
           <span>Storage</span>
           <h2>0G Storage Evidence</h2>
         </div>
-        <div class="evidence-grid">
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0xf124a39288dc004739da5df685d11529a7031f925c5fd0ed275665681a18e024" target="_blank" rel="noreferrer">
-            <span>Provider Profile</span>
-            <strong>0xeba0f316...d13a0c00</strong>
-            <em>0g://storage root + upload tx</em>
+        <div class="evidence-grid two">
+          <a class="evidence-card" href="https://chainscan.0g.ai/tx/0x2ba5c950aed84fd95b18c80026a6d6a5f890fc4435cc064981da88e65139d066" target="_blank" rel="noreferrer">
+            <span>Live UniCatcher Receipt + Review Rollup</span>
+            <strong>0xc735ba92...698b218b</strong>
+            <em>2 live review items stored on 0G Storage</em>
           </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0xd00dfd97375093131997a0a5a29b761455b13563c36dc5b05aeee2405f77a452" target="_blank" rel="noreferrer">
-            <span>Capability Manifest</span>
-            <strong>0x80f05134...6d9ed17e</strong>
-            <em>Versioned manifest JSON</em>
-          </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0x99b1dba93c402b776fa1807f89109dfbdb0cf9350d99832b81b5ef511e063a66" target="_blank" rel="noreferrer">
-            <span>Receipt Batch</span>
-            <strong>0x087336b4...4e1e6811</strong>
-            <em>3 mock invocation receipts</em>
-          </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0x49c8a72d892a26178a373ee9db1b1589ecb396b98b0238df5a8e9155d6f6b3e3" target="_blank" rel="noreferrer">
-            <span>Settlement Batch</span>
-            <strong>0x057f9d4a...9662832a</strong>
-            <em>Offline provider-share ledger</em>
+          <a class="evidence-card" href="https://chainscan.0g.ai/tx/0x2883413796921a8d6712b223e26f828b8a81aa27386f3cab33ebd2745e66feaf" target="_blank" rel="noreferrer">
+            <span>Default Capability Receipt Batch</span>
+            <strong>0x9dc64f67...93f3be76</strong>
+            <em>Server-observed invocation receipt stored on 0G Storage</em>
           </a>
         </div>
       </section>
@@ -112,28 +102,18 @@
       <section class="panel evidence-panel">
         <div class="panel-head">
           <span>Chain</span>
-          <h2>Proof Transactions</h2>
+          <h2>Mainnet Proof Transactions</h2>
         </div>
-        <div class="evidence-grid">
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0x633acdaf8403f4aa0981ebcefaef32e5f4bfa7f22eb7d318f32c0435c1d419dd" target="_blank" rel="noreferrer">
-            <span>Provider Identity</span>
-            <strong>0x633acdaf...c1d419dd</strong>
-            <em>Profile hash + 0G Storage URI</em>
+        <div class="evidence-grid two">
+          <a class="evidence-card" href="https://chainscan.0g.ai/tx/0x171fd6a2af7544fa3ac8c715bae88a7ea5cf52348b5675c1fc60ffc8ff36ea2f" target="_blank" rel="noreferrer">
+            <span>Live Receipt / Review Anchor</span>
+            <strong>0x171fd6a2...ff36ea2f</strong>
+            <em>Rollup root anchored in ZeroGProofRegistry</em>
           </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0x1652c5d90bac7e3dd761adb4fa3690002af2ac73d67d3afb1a9dd8c6c247fb50" target="_blank" rel="noreferrer">
-            <span>Capability Manifest</span>
-            <strong>0x1652c5d9...c247fb50</strong>
-            <em>Manifest hash anchored on-chain</em>
-          </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0xa09a265cbd340604c0bf998c655933828350e968e41b37b9d0b7244717f16a28" target="_blank" rel="noreferrer">
-            <span>Receipt Batch</span>
-            <strong>0xa09a265c...17f16a28</strong>
-            <em>Receipt root anchored on-chain</em>
-          </a>
-          <a class="evidence-card" href="https://chainscan-galileo.0g.ai/tx/0x30e44b54fa817dcf7beb1d534a226aac20ef96128a6a64e49e6be68b3d4f7289" target="_blank" rel="noreferrer">
-            <span>Settlement Batch</span>
-            <strong>0x30e44b54...3d4f7289</strong>
-            <em>Settlement root and Storage URI</em>
+          <a class="evidence-card" href="https://chainscan.0g.ai/tx/0xde9d31a74f4de058befb169832ab0cc8f1664aa0a0c5e114049a455fcb3676c0" target="_blank" rel="noreferrer">
+            <span>Default Receipt Batch Anchor</span>
+            <strong>0xde9d31a7...cb3676c0</strong>
+            <em>Receipt root anchored in ZeroGProofRegistry</em>
           </a>
         </div>
       </section>
@@ -141,17 +121,21 @@
       <section class="panel evidence-panel">
         <div class="panel-head">
           <span>Readback</span>
-          <h2>On-Chain Verification Result</h2>
+          <h2>On-Chain Verification Results</h2>
         </div>
-        <pre class="code-block">proofId: 0x4559698deeb53d92ebbb9283be33b608d588320b16e463b16d073a2ae484c4bb
-kind: 3 (SettlementBatch)
-contentHash: 0x993006b1bd029fdd2ff89c949f023bbf1900c16ccd184813b4e0a8dfc9e9f771
-storageURI: 0g://storage/0x057f9d4a403aa54b9ae3c5cc7daa06d75ab9c9559067e864acde59049662832a
-itemCount: 1
-anchoredAt: 2026-04-28T04:21:20.000Z</pre>
+        <pre class="code-block">proofId: 0x33ee52c65804b81459722404de92fe7958fcd41d54cd4a128184c9d93e81029c
+kind: 2 (ReceiptBatch)
+contentHash: 0x3b1d2ea7951d2226eab1376158898e522baf08d07e6b4dc99ed2f3f58e8f1d04
+storageURI: 0g://storage/0xc735ba92b76a606149144a1ef37338a6f9214001e3ba48b80226132e698b218b
+itemCount: 2
+
+proofId: 0x8efbda850cff5fe79b7d397518e9baf2caaf70fe2e5ae9da09a6744c79578125
+kind: 2 (ReceiptBatch)
+contentHash: 0x881dba5d65d8194ae7ee56792b0ab4cbbd6205bfa5180060756e349bf7b27d30
+storageURI: 0g://storage/0x9dc64f6742b6c981db5083cca126d0d5631e26e21d5bebd17e0d5ee293f3be76
+itemCount: 1</pre>
         <p class="muted">
-          The on-chain `storageURI` points to the 0G Storage root for the settlement evidence JSON.
-          The content hash matches the settlement root shown in the uploaded JSON and chain record.
+          Both proof records were read back from the 0G mainnet registry after anchoring.
         </p>
       </section>
 
@@ -161,8 +145,9 @@ anchoredAt: 2026-04-28T04:21:20.000Z</pre>
           <h2>Review Shortcuts</h2>
         </div>
         <div class="shortcut-row">
-          <a class="cta-link" href="/docs/testnet-evidence.md">Evidence Markdown</a>
-          <a class="cta-link" href="/docs/evidence-artifacts/xenodia-market-research-settlement-batch-3.json">Settlement JSON</a>
+          <a class="cta-link" href="/docs/mainnet-evidence.md">Mainnet Evidence Markdown</a>
+          <a class="cta-link" href="/docs/live-unicatcher-evidence.md">Live UniCatcher Evidence</a>
+          <a class="cta-link" href="/docs/evidence-artifacts/unicatcher-live-evidence-rollup-2.json">Rollup JSON</a>
           <a class="cta-link" href="/">Run Local Demo</a>
         </div>
       </section>

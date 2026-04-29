@@ -1,0 +1,23 @@
+{
+  "schema": "xenodia.0g.capability-receipt-batch.v1",
+  "generatedAt": "2026-04-29T01:47:41.477Z",
+  "batchId": "0xc2996f34a0bbfd32dc29720666dfe2e4f5db3b98c89553c60e9078db3a5236aa",
+  "receiptRoot": "0x881dba5d65d8194ae7ee56792b0ab4cbbd6205bfa5180060756e349bf7b27d30",
+  "receiptCount": 1,
+  "receipts": [
+    {
+      "receiptId": "0x1ddc035862cbfd762dd8c4c72ae736d221e194e0eb795a8cd7b80b83ac63aa2a",
+      "providerId": "UniCatcher Agent Intelligence Gateway",
+      "capabilitySlug": "unicatcher-query",
+      "operation": "monitors",
+      "requestId": "acc:2:srv:e8f74a6a85584fbf3c206d97",
+      "requestURL": "/v1/capabilities/unicatcher-query/operations/monitors",
+      "idempotencyKeyHash": "0xca77334f94a15e809e23711ae1e3fd69aa8043f6563c53c3516845dbd33ce03c",
+      "accountHash": "0x7fd4ef771ec2b8a74902dd2286e13de3d4462889e9b7ad8dca76cc9d99f57783",
+      "inputHash": "0xffcc9870a751a0241f5f2bdac8e6646c40b92bb226e8efc4af2e29cc242fc176",
+      "outputHash": "0xa1c207812495e6222ba411d2b8b1ac1d0f969f303159f7de0ced68e3e44c018a",
+      "status": "success",
+      "createdAt": "2026-04-28T10:43:31.592Z"
+    }
+  ]
+}

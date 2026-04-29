@@ -14,6 +14,7 @@ All 0G-related development belongs here unless the user explicitly asks otherwis
 - If full local context is needed, run the production repositories side by side and sync only approved files into this repo.
 - All imports from private development workspaces must go through `.safe-sync-manifest` and `scripts/safe-sync.sh`.
 - Run `scripts/submission-guard.sh` before committing, pushing, zipping, or sharing this repo with judges.
+- Keep the copied full frontend mirror local-only. The root `.gitignore` deliberately allows only 0G-specific frontend slices through Git.
 - Prefer mock, deterministic, or local-demo executors for capability execution.
 - 0G integration should focus on identity, capability publication, immutable receipts, settlement evidence, and proof anchoring.
 - 0G Compute and TEE are out of MVP scope unless the user explicitly re-prioritizes them.
@@ -40,6 +41,7 @@ Safe sync rules:
 - Missing source files should not block normal development because 0G work may happen entirely inside this repo.
 - After every sync, run the submission guard.
 - Never use `git add .` blindly after a sync. Inspect `git status --short` first.
+- For GitHub upload, prefer `npm run guard` and then review `git status --short --ignored`; ignored frontend mirror files must stay ignored unless a new file is explicitly sanitized and allowlisted.
 
 Submission guard rules:
 

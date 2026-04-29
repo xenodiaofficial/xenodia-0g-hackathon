@@ -73,9 +73,6 @@ export default function ZeroGHackathonPage() {
           <a className="btn btn-primary" href="/0g-proof-center">
             Open Proof Center
           </a>
-          <a className="btn btn-ghost btn-sweep" href="/docs/live-unicatcher-evidence.md" target="_blank" rel="noreferrer">
-            Read Evidence Doc
-          </a>
         </div>
       </section>
 
@@ -192,7 +189,7 @@ export default function ZeroGHackathonPage() {
                 value={liveEvidence.rollupRoot}
               />
               <EvidenceLink
-                href="/docs/live-unicatcher-evidence.md"
+                href={`${liveEvidence.explorerBase}/address/${liveEvidence.contractAddress}`}
                 title={`${liveEvidence.itemCount} live review item(s)`}
                 value={liveEvidence.receiptBatchProofId}
               />

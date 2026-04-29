@@ -1,172 +1,60 @@
-# Xenodia 0G Hackathon Demo
+# Xenodia x 0G
 
-This repository is a sanitized, local-demo-only 0G hackathon workspace extracted from Xenodia.
+Xenodia turns 0G into a verifiable evidence layer for agent capabilities.
 
-It intentionally excludes production LLM API code, provider routing, API key management, internal billing implementation, real environment files, and production logs. The goal is to show the 0G integration surface clearly without exposing sensitive production code.
+The demo focuses on a real capability-market flow: a signed-in Xenodia user invokes UniCatcher, records a sanitized service receipt, optionally submits a review, batches the evidence, stores the batch on 0G Storage, and anchors the batch root on 0G Chain.
 
-## Scope
+Production LLM routing, upstream provider credentials, private billing internals, production environment files, and operational logs are intentionally excluded.
 
-- Provider-level on-chain identity and reputation skeleton.
-- Capability manifest publication flow.
-- 0G Storage / chain anchoring metadata fields.
-- Immutable receipt and settlement-proof direction documented for later phases.
-- Local demo UI for preparing provider identities and capability publications.
+## What 0G Adds
 
-## Out Of Scope
+- Provider-level evidence: capability providers can build a public trail of service activity and reputation.
+- Tamper-evident receipts: each invocation records input/output hashes, status, and request metadata without exposing raw user data.
+- Batched anchoring: many local receipts and reviews are aggregated into one rollup root before writing to 0G.
+- Decentralized evidence storage: the full sanitized batch JSON is uploaded to 0G Storage.
+- On-chain proof registry: the batch root, storage URI, item count, and proof ID are anchored on 0G Chain.
 
-- Production LLM execution.
-- Real upstream model provider credentials.
-- Production channel routing and provider pool logic.
-- 0G Compute.
-- TEE execution.
-- Automatic on-chain revenue split.
+## Mainnet Evidence
 
-## Repository Layout
+- 0G Registry contract: [`0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`](https://chainscan.0g.ai/address/0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C)
+- Contract deploy tx: [`0xf108ae9d41a3b8e9b3909a7ba54dc1f3e89f0c98bb2af4a91f4a5cba062e3828`](https://chainscan.0g.ai/tx/0xf108ae9d41a3b8e9b3909a7ba54dc1f3e89f0c98bb2af4a91f4a5cba062e3828)
+- Latest UniCatcher rollup items: `5`
+- Latest rollup root: `0x090f1dba19ae15116c018e7fab5101d540753b0619a48fc04336610f72536fc5`
+- Latest 0G Storage root: `0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e`
+- Latest 0G Storage URI: `0g://storage/0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e`
+- Latest 0G Storage tx: [`0x649cc444e39538a47e2cb7a06f47a52e192ff9edba4ea05cd8c1ddd13ee4f29b`](https://chainscan.0g.ai/tx/0x649cc444e39538a47e2cb7a06f47a52e192ff9edba4ea05cd8c1ddd13ee4f29b)
+- Latest proof ID: `0x311f4dd9adcba9e0d468d5a6c7bd4ea600be75dbdcad032958a8df10ca202893`
+- Latest 0G Chain anchor tx: [`0x6db5ebf5b8ced5081f1c0c670c8359e2b4164e1a6f70b007b46f8471f744971b`](https://chainscan.0g.ai/tx/0x6db5ebf5b8ced5081f1c0c670c8359e2b4164e1a6f70b007b46f8471f744971b)
 
-- `contracts/`: minimal 0G proof registry contract.
-- `demo/`: standalone local server, mock executor, proof model, and static UI.
-- `docs/`: product memo, development plan, and hackathon phase plan.
-- `backend/`: sanitized 0G-specific backend model, migration, handler, and service files.
-- `frontend/`: only sanitized 0G-specific frontend slices are meant for public submission. A fuller frontend mirror may exist locally for demo development, but it is ignored by Git unless a file is explicitly allowlisted.
-- `scripts/`: local safety checks plus contract compile/deploy/read helpers.
-- `integration/`: notes describing how the local demo branch wires these modules into Xenodia without copying production internals.
+## User Flow
 
-## GitHub Submission Safety
+1. Open the capability market and sign in.
+2. Invoke UniCatcher through Xenodia with normal user-side authentication.
+3. Xenodia records a local receipt hash for the invocation.
+4. The user submits a rating/review for that invocation.
+5. The local evidence batch shows pending and anchored item counts.
+6. The operator uploads the batch to 0G Storage and anchors the batch root on 0G Chain.
+7. The page displays the storage transaction, storage URI, storage root, rollup root, proof ID, and chain anchor transaction.
 
-Before pushing or uploading this repo:
+## Review Scope
 
-```bash
-npm run guard
-git status --short --ignored
-```
+This public repository is intentionally review-focused. It contains the 0G integration code, sanitized frontend slices, the proof registry contract, and the current mainnet evidence artifacts.
 
-The guard blocks obvious secrets, private key material, production database files, and forbidden production directories. The root `.gitignore` also keeps the copied full Xenodia frontend mirror local-only; do not force-add ignored frontend files unless they have been sanitized and are directly needed for the 0G hackathon evidence path.
+The complete Xenodia product shell, private runtime configuration, production API services, and local demo wallet are not included.
 
-Judge-facing entry points should stay English-first: `README.md`, `docs/mainnet-evidence.md`, `docs/live-unicatcher-evidence.md`, `docs/capability-receipt-batches.md`, and the 0G demo/proof pages. Chinese planning notes may remain as local project history, but they should not be the primary review path.
+## Repository Contents
 
-## Demo Principle
+- `contracts/ZeroGProofRegistry.sol`: minimal proof registry used for 0G anchoring.
+- `frontend/`: sanitized 0G pages, proof center, UniCatcher proof panel, and 0G API routes.
+- `backend/`: sanitized 0G-specific backend models and migration slices.
+- `docs/evidence-artifacts/`: sanitized JSON evidence artifacts used by the proof center.
+- `scripts/upload-live-unicatcher-evidence.mjs`: uploads the live UniCatcher rollup to 0G Storage and anchors it on 0G Chain.
+- `scripts/upload-capability-receipt-batch.mjs`: uploads default capability receipt batches.
 
-The hackathon demo should use a mock or deterministic capability executor. 0G is used for identity, publication, and proof anchoring; the private Xenodia production LLM layer remains outside this repository.
+## What Is Not Included
 
-## Local Demo
-
-Start the judge-visible local demo:
-
-```bash
-npm run demo:start
-```
-
-Then open `http://localhost:4040`.
-
-For the judge-facing walkthrough, see `docs/demo-runbook.md`.
-
-The demo flow is:
-
-1. Review or edit the provider identity.
-2. Review or edit the capability manifest.
-3. Invoke the mock capability executor.
-4. Generate dry-run 0G proof IDs.
-5. Review the verifiable provider settlement accounting ledger and CSV export.
-6. Optionally send proofs to a deployed `ZeroGProofRegistry` contract.
-
-Run the smoke test:
-
-```bash
-npm run demo:smoke
-```
-
-## Contract Workflow
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Compile and test locally:
-
-```bash
-npm run contracts:compile
-npm test
-npm run guard
-```
-
-Generate local 0G Storage artifacts without uploading:
-
-```bash
-npm run storage:dry-run
-```
-
-Upload the provider profile, capability manifest, receipt batch, and settlement batch JSON to 0G Storage testnet:
-
-```bash
-npm run storage:upload:0g-testnet
-```
-
-Judge-visible copies of the uploaded JSON payloads are in `docs/evidence-artifacts/`.
-
-Deploy to 0G testnet:
-
-```bash
-export DEPLOYER_PRIVATE_KEY=<local-demo-wallet-private-key>
-npm run contracts:deploy:0g-testnet
-```
-
-Deploy with the local demo wallet and write judge evidence:
-
-```bash
-npm run deploy:evidence:0g-testnet
-```
-
-This command reads the local demo wallet from `~/.config/xenodia-0g-hackathon/demo-wallet.json`, deploys `ZeroGProofRegistry`, anchors demo proofs, and updates `docs/testnet-evidence.md`. It will stop safely if the wallet has not been funded by the 0G faucet yet.
-
-If faucet funding has been requested but has not arrived yet, leave this watcher running:
-
-```bash
-npm run deploy:wait:0g-testnet
-```
-
-It polls the local demo wallet balance, then reuses the evidence deployment command once funds arrive. Optional controls: `FUNDING_POLL_INTERVAL_MS`, `FUNDING_TIMEOUT_MS`, and `MIN_FUNDING_WEI`. The default minimum funding threshold is `0.005 0G` to avoid deploying on dust balances.
-
-Deploy to 0G mainnet:
-
-```bash
-npm run contracts:deploy:0g-mainnet
-```
-
-Current mainnet deployment:
-
-- Contract: `0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`
-- Deploy tx: `0xf108ae9d41a3b8e9b3909a7ba54dc1f3e89f0c98bb2af4a91f4a5cba062e3828`
-- Explorer: `https://chainscan.0g.ai/address/0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C`
-
-Anchor live evidence to the deployed mainnet registry:
-
-```bash
-PROOF_REGISTRY_ADDRESS=0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C npm run live:upload:0g-mainnet
-PROOF_REGISTRY_ADDRESS=0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C npm run receipts:upload:0g-mainnet
-```
-
-Read a proof record:
-
-```bash
-export ZERO_G_RPC_URL=https://evmrpc.0g.ai
-export PROOF_REGISTRY_ADDRESS=<deployed-contract-address>
-export PROOF_ID=<bytes32-proof-id>
-npm run proof:read
-```
-
-Generate deterministic demo proof payloads without sending transactions:
-
-```bash
-npm run proof:demo
-```
-
-Send the demo provider, capability, receipt batch, and settlement batch proofs to a deployed registry:
-
-```bash
-export ZERO_G_RPC_URL=https://evmrpc.0g.ai
-export DEPLOYER_PRIVATE_KEY=<local-demo-wallet-private-key>
-export PROOF_REGISTRY_ADDRESS=<deployed-contract-address>
-npm run proof:demo -- --send
-```
+- Production LLM provider routing.
+- Production upstream API keys.
+- Private billing internals.
+- Production environment files.
+- Internal development notes, agent rules, sync scripts, test scripts, and local operational logs.

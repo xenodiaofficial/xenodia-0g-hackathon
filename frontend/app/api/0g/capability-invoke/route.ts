@@ -4,7 +4,7 @@ import {
   readCapabilityReceiptLog,
   writeCapabilityReceiptLog,
 } from '@/lib/zerog-capability-receipts';
-import { resolveAuthBaseURL, resolveGatewayBaseURL } from '@/lib/server/api-proxy';
+import { resolveZeroGAuthBaseURL, resolveZeroGCapabilityGatewayBaseURL } from '@/lib/server/zerog-upstream';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +20,7 @@ type InvokeBody = {
 };
 
 async function verifyAccount(authorization: string) {
-  const response = await fetch(`${resolveAuthBaseURL()}/v1/me`, {
+  const response = await fetch(`${resolveZeroGAuthBaseURL()}/v1/me`, {
     cache: 'no-store',
     headers: {
       Authorization: authorization,
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
   }
 
   const method = normalizeMethod(body.method);
-  const upstreamURL = new URL(body.requestURL, resolveGatewayBaseURL());
+  const upstreamURL = new URL(body.requestURL, resolveZeroGCapabilityGatewayBaseURL());
   const idempotencyKey = body.idempotencyKey || `cap-${body.capabilitySlug}-${Date.now()}`;
   const createdAt = new Date().toISOString();
   let upstreamStatus = 502;

@@ -5,7 +5,7 @@ import {
   buildLiveUniCatcherEvidence,
   type LiveUniCatcherReviewInput,
 } from '@/lib/zerog-live-evidence';
-import { resolveAuthBaseURL } from '@/lib/server/api-proxy';
+import { resolveZeroGAuthBaseURL } from '@/lib/server/zerog-upstream';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,7 +34,7 @@ async function writeEvidenceLog(items: Array<ReturnType<typeof buildLiveUniCatch
 }
 
 async function verifyAccount(authorization: string) {
-  const response = await fetch(`${resolveAuthBaseURL()}/v1/me`, {
+  const response = await fetch(`${resolveZeroGAuthBaseURL()}/v1/me`, {
     cache: 'no-store',
     headers: {
       Authorization: authorization,

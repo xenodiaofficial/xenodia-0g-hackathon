@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 
 export const SITE_NAME = 'Xenodia';
 export const SITE_URL = (process.env.NEXT_PUBLIC_WEB_BASE_URL || 'https://xenodia.xyz').replace(/\/+$/, '');
-export const SITE_TITLE = 'Xenodia | Unified AI Gateway for Agentic Systems';
+export const SITE_TITLE = 'Xenodia x 0G | Verifiable Agent Capability Market';
 export const SITE_DESCRIPTION =
-  'Xenodia is a unified AI gateway for agentic systems, with developer docs, public model pricing, image APIs, async media tasks, and API key access from one platform.';
+  'Xenodia uses 0G as the evidence layer for agent capability providers, invocation receipts, user reviews, reputation roots, storage roots, and settlement records.';
 export const SITE_TWITTER = '@XenodiaX';
 
 export function absoluteUrl(path = '/') {

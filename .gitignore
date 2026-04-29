@@ -1,4 +1,6 @@
 .DS_Store
+.safe-sync-manifest
+AGENTS.md
 .env
 .env.*
 !.env.example
@@ -11,6 +13,29 @@ artifacts/
 cache/
 tmp/
 *.log
+
+# Keep public submission focused. Development docs and internal operating
+# rules stay local and should not be uploaded to GitHub.
+docs/*.md
+docs/evidence-artifacts/*
+!docs/evidence-artifacts/capability-receipt-batch-1.json
+!docs/evidence-artifacts/unicatcher-live-evidence-rollup-5.json
+integration/*.md
+test/
+demo/**
+!demo/
+!demo/proof-model.mjs
+scripts/anchor-demo-proofs.mjs
+scripts/deploy-testnet-evidence.mjs
+scripts/frontend-dev.mjs
+scripts/live-unicatcher-api-smoke.mjs
+scripts/read-proof-record.mjs
+scripts/safe-sync.sh
+scripts/smoke-demo.mjs
+scripts/smoke-frontend.mjs
+scripts/submission-guard.sh
+scripts/upload-demo-storage.mjs
+scripts/wait-for-funding-and-deploy.mjs
 
 # The copied Xenodia frontend mirror is local-development context only.
 # Keep it available on disk, but do not let a blind `git add .` publish the
@@ -52,10 +77,8 @@ frontend/lib/**
 !frontend/lib/site.ts
 !frontend/lib/server/
 frontend/lib/server/**
-!frontend/lib/server/api-proxy.ts
+!frontend/lib/server/zerog-upstream.ts
 !frontend/public/
 frontend/public/**
 !frontend/public/docs/
 frontend/public/docs/**
-!frontend/public/docs/mainnet-evidence.md
-!frontend/public/docs/live-unicatcher-evidence.md

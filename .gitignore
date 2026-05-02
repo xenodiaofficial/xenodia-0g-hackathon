@@ -58,6 +58,7 @@ frontend/app/(public)/**
 !frontend/components/
 frontend/components/**
 !frontend/components/ZeroGHackathonPage.tsx
+!frontend/components/ZeroGDynamicStats.tsx
 !frontend/components/ZeroGProofCenterPage.tsx
 !frontend/components/capabilities/
 frontend/components/capabilities/**

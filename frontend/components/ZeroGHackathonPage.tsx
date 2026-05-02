@@ -1,5 +1,6 @@
 import liveEvidence from '@/content/zerog-live-evidence.json';
 import receiptBatchIndex from '@/content/zerog-receipt-batches.json';
+import ZeroGDynamicStats from '@/components/ZeroGDynamicStats';
 
 const CONTRACT_ADDRESS = liveEvidence.contractAddress;
 const EXPLORER_BASE = liveEvidence.explorerBase;
@@ -37,6 +38,12 @@ const proofTransactions = [
 ].filter((item): item is { label: string; tx: string; note: string } => Boolean(item));
 
 const liveEvidenceAnchored = liveEvidence.status === 'anchored' && Boolean(liveEvidence.receiptBatchTx);
+const initialStats = {
+  localEvidenceCount: liveEvidence.itemCount || 0,
+  anchoredItemCount: liveEvidence.itemCount || 0,
+  pendingItemCount: 0,
+  registryStatus: CONTRACT_ADDRESS ? 'LIVE' : 'OFF',
+};
 
 function EvidenceLink({ href, title, value }: { href: string; title: string; value: string }) {
   return (
@@ -76,29 +83,12 @@ export default function ZeroGHackathonPage() {
         </div>
       </section>
 
-      <section className="stats-bar zerog-proof-strip">
-        <div className="stat-item">
-          <div className="stat-value">{storageEvidence.length}</div>
-          <div className="stat-label">0G_STORAGE_ROOTS</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-value">{proofTransactions.length}</div>
-          <div className="stat-label">CHAIN_PROOFS</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-value">1</div>
-          <div className="stat-label">PROOF_REGISTRY</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-value">MVP</div>
-          <div className="stat-label">JUDGE_READY</div>
-        </div>
-      </section>
+      <ZeroGDynamicStats initialStats={initialStats} />
 
       <section className="features zerog-section">
         <div className="section-header">
           <span className="section-kicker">FULL PRODUCT TARGET</span>
-          <h2>0G remains the evidence layer, not a separate demo skin.</h2>
+          <h2>0G remains the evidence layer.</h2>
           <p>
             In the complete version, every qualified capability provider can expose services through Xenodia while
             0G stores the public evidence needed to verify identity, execution receipts, user feedback, reputation,

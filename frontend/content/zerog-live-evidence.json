@@ -3,12 +3,12 @@
   "network": "0G Mainnet",
   "contractAddress": "0x808a9B90862ad495b0Ee97335f55D4c114A5EE7C",
   "explorerBase": "https://chainscan.0g.ai",
-  "itemCount": 5,
-  "storageRoot": "0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e",
-  "storageURI": "0g://storage/0xd90bb3e69cce3ed1f0ce3a7911d5c1ba41f076520c243919fce0134de80d8a0e",
-  "storageTx": "0x649cc444e39538a47e2cb7a06f47a52e192ff9edba4ea05cd8c1ddd13ee4f29b",
-  "rollupRoot": "0x090f1dba19ae15116c018e7fab5101d540753b0619a48fc04336610f72536fc5",
-  "receiptBatchProofId": "0x311f4dd9adcba9e0d468d5a6c7bd4ea600be75dbdcad032958a8df10ca202893",
-  "receiptBatchTx": "0x6db5ebf5b8ced5081f1c0c670c8359e2b4164e1a6f70b007b46f8471f744971b",
-  "updatedAt": "2026-04-29T03:53:37.038Z"
+  "itemCount": 6,
+  "storageRoot": "0xae8b2bfbc9ca4a7489de66590322e3d76ddaaebe1d4e3c944dc67b2d5653723f",
+  "storageURI": "0g://storage/0xae8b2bfbc9ca4a7489de66590322e3d76ddaaebe1d4e3c944dc67b2d5653723f",
+  "storageTx": "0x5c721f5b8d0d7d5dd9df5c276c3f655d83235abf732549a57d36c557a8e2734f",
+  "rollupRoot": "0x8954f1f62f2432b758b532788903199f073df5303b86a431aaae9fbbb6b4f97c",
+  "receiptBatchProofId": "0xef6a763f74aef5d063d07692f377c583f6a44570478123186be10c9ec0053d88",
+  "receiptBatchTx": "0xdc94d946c992ec9e48fc440af224ddf504b31078245b6c62cf65579d8d69229a",
+  "updatedAt": "2026-04-30T02:35:22.776Z"
 }
